@@ -13,9 +13,9 @@ namespace PipelineDesignPattern.SimpleImplement.Framework
                 "starting exception handling".Dump();
                 Action(context);
             }
-            catch (Exception c)
+            catch (Exception ex)
             {
-                "exception occurod".Dump(c.Message);
+                "exception occurod".Dump(ex.Message);
             }
         }
     }
