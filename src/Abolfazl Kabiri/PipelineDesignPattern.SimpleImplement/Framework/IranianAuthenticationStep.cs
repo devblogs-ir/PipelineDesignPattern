@@ -10,30 +10,25 @@ namespace PipelineDesignPattern.SimpleImplement.Framework
 
         public void Exceute(IPipelineContext context)
         {
-            try
-            {
-                "Starting auth".Dump();
-                IPAddress parsedIpAddress;
-                IPAddress.TryParse(context.RequestIpAddress, out parsedIpAddress);
-                if (parsedIpAddress is not null)
-                {
-                    if (!context.RequestIpAddress.Split('.')[0].Contains("194"))
-                    {
-                        Func();
-                        "End auth".Dump();
-                    }
-                    throw new InvalidOperationException("request is not valid. invalid country");
-                }
-                else
-                {
-                    throw new InvalidCastException("Ip address is not valid");
-                }
 
-            }
-            catch (Exception ex)
+            "Starting auth".Dump();
+            IPAddress parsedIpAddress;
+            IPAddress.TryParse(context.RequestIpAddress, out parsedIpAddress);
+            if (parsedIpAddress is not null)
             {
-                "exception occurod".Dump(ex.Message);
+                if (!context.RequestIpAddress.Split('.')[0].Contains("194"))
+                {
+                    Func();
+                    "End auth".Dump();
+                }
+                throw new InvalidOperationException("request is not valid. invalid country");
             }
+            else
+            {
+                throw new InvalidCastException("Ip address is not valid");
+            }
+
+
 
         }
 
