@@ -2,6 +2,6 @@
 {
     public class PipelineContext : IPipelineContext
     {
-        public string RequestIpAddress { get; set; }
+        public required string RequestIpAddress { get; set; }
     }
 }
