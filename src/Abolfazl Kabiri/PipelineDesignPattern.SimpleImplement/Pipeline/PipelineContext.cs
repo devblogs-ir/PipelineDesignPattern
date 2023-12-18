@@ -1,6 +1,6 @@
 ﻿namespace PipelineDesignPattern.SimpleImplement.Pipeline
 {
-    public interface IPipelineContext
+    public class PipelineContext : IPipelineContext
     {
         public string RequestIpAddress { get; set; }
     }

@@ -1,23 +1,20 @@
 ﻿namespace PipelineDesignPattern.SimpleImplement.Pipeline
 {
-    internal class Pipeline
+    public class Pipeline
     {
-        readonly List<IPipelineStep> _steps;
-        public Pipeline()
+        readonly IPipelineContext _context;
+        IPipelineStep _startPoint;
+        public Pipeline(IPipelineContext context)
         {
-            _steps = new List<IPipelineStep>();
+            _context = context;
         }
-
-        void AddStep(IPipelineStep step)
+        public void SetStartProccessPoint(IPipelineStep startPointStep)
         {
-            _steps.Add(step);
+            _startPoint = startPointStep;
         }
-        void ExecutePipeline()
+        public void ExecutePipeline()
         {
-            foreach (var step in _steps)
-            {
-                //step.Exceute();
-            }
+            _startPoint.Exceute(_context);
         }
     }
 }

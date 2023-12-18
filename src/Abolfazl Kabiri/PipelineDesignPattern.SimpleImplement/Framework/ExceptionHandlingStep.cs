@@ -3,13 +3,15 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework
 {
-    internal class ExceptionHandlingStep : IPipelineStep
+    public class ExceptionHandlingStep : IPipelineStep
     {
-        public void Exceute(IPoplineContext context, Func<IPoplineContext, bool> func)
+        public Action<IPipelineContext> Action { get; set; }
+        public void Exceute(IPipelineContext context)
         {
             try
             {
-                func(context);
+                "starting exception handling".Dump();
+                Action(context);
             }
             catch (Exception c)
             {

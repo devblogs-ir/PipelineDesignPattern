@@ -3,12 +3,13 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework
 {
-    internal class CorsStep : IPipelineStep
+    public class CorsStep : IPipelineStep
     {
-        public void Exceute(IPoplineContext context, Func<IPoplineContext, bool> func)
+        public Action<IPipelineContext> Action { get; set; }
+        public void Exceute(IPipelineContext context)
         {
             "Starting cors".Dump();
-            func(context);
+            Action(context);
             "End cors".Dump();
         }
     }

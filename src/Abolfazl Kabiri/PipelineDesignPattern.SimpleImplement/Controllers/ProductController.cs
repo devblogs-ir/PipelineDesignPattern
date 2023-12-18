@@ -2,9 +2,9 @@
 
 namespace PipelineDesignPattern.SimpleImplement.Controllers
 {
-    internal class ProductController
+    public class ProductController
     {
-        string GetAllProducts()
+        public string GetAllProducts()
         {
             return "return all products".Dump();
         }

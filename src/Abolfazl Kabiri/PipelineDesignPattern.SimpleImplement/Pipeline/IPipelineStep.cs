@@ -1,7 +1,14 @@
 ﻿namespace PipelineDesignPattern.SimpleImplement.Pipeline
 {
-    internal interface IPipelineStep
+    public interface IPipelineStep
     {
-        void Exceute(IPipelineContext context, Func<IPipelineContext, bool> func);
+        public Action<IPipelineContext> Action { get; set; }
+        void Exceute(IPipelineContext context);
+    }
+
+    public interface IEndPoindPipelineStep<T>
+    {
+        public Func<T> Func { get; set; }
+        void Exceute(IPipelineContext context);
     }
 }
