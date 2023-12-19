@@ -20,7 +20,6 @@ var corsStep = new CorsStep();
 var exceptionhandlingStep = new ExceptionHandlingStep();
 var routeStep = new RouteStep();
 var product = new ProductController();
-var americanAuthenticationStep = new AmericanAuthenticationStep<string>();
 IEndPointPipelineStep<string> authenticationStep = country.ToLower().Equals("iran") ? new IranianAuthenticationStep<string>() : new AmericanAuthenticationStep<string>();
 
 // setup action chaining in pipeline
