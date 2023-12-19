@@ -1,13 +1,10 @@
-
-using System.Security.Authentication;
-
 namespace PipelineDesignPattern;
 public class Framework
 {
     public void Authentication(HttpContext httpContext, Action<HttpContext> action)
     {
-        if (httpContext.IP.Equals("iran", StringComparison.OrdinalIgnoreCase))
-            throw new InvalidCredentialException("invalid IP");
+        if (httpContext is null || httpContext.IP == "iran")
+            throw new InvalidIPException("invalid IP");
 
         action(httpContext);
     }
@@ -17,7 +14,7 @@ public class Framework
         {
             action(httpContext);
         }
-        catch (Exception ex)
+        catch (InvalidIPException ex)
         {
             Console.WriteLine(ex.Message);
         }
