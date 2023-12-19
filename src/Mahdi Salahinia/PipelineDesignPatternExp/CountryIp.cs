@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace PipelineDesignPatternExp
 {
-    public class Framework
+    public class CountryIp
     {
-        private readonly Action _action;
+        public List<string> IranIps { get; set; }
+        public List<string> AmericaIps { get; set; }
     }
 }

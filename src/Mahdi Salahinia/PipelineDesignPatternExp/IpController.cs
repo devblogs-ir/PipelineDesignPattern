@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PipelineDesignPatternExp
 {
-    public class Framework
+    public class IpController
     {
-        private readonly Action _action;
+
     }
 }
