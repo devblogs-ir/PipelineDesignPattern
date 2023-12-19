@@ -11,4 +11,12 @@
     <PackageReference Include="Dumpify" Version="0.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="E:\Learning\.Net Mastery\Practice\Session4\PipelineDesignPattern\src\Abolfazl Kabiri\PipelineDesignPattern.SimpleImplement\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="E:\Learning\.Net Mastery\Practice\Session4\PipelineDesignPattern\src\Abolfazl Kabiri\PipelineDesignPattern.SimpleImplement\.editorconfig" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,5 @@
-﻿namespace PipelineDesignPattern.SimpleImplement.Pipeline
+﻿namespace PipelineDesignPattern.SimpleImplement.Pipeline;
+public class PipelineContext : IPipelineContext
 {
-    public class PipelineContext : IPipelineContext
-    {
-        public required string RequestIpAddress { get; set; }
-    }
+    public required string RequestIpAddress { get; set; }
 }

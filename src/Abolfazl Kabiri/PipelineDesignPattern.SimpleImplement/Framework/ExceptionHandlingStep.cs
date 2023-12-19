@@ -1,22 +1,21 @@
 ﻿using Dumpify;
 using PipelineDesignPattern.SimpleImplement.Pipeline;
 
-namespace PipelineDesignPattern.SimpleImplement.Framework
+namespace PipelineDesignPattern.SimpleImplement.Framework;
+
+public class ExceptionHandlingStep : IPipelineStep
 {
-    public class ExceptionHandlingStep : IPipelineStep
+    public Action<IPipelineContext> Action { get; set; }
+    public void Exceute(IPipelineContext context)
     {
-        public Action<IPipelineContext> Action { get; set; }
-        public void Exceute(IPipelineContext context)
+        try
         {
-            try
-            {
-                "starting exception handling".Dump();
-                Action(context);
-            }
-            catch (Exception ex)
-            {
-                "exception occurod".Dump(ex.Message);
-            }
+            "starting exception handling".Dump();
+            Action(context);
+        }
+        catch (Exception ex)
+        {
+            "exception occurod".Dump(ex.Message);
         }
     }
 }

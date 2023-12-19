@@ -2,42 +2,35 @@
 using PipelineDesignPattern.SimpleImplement.Framework;
 using PipelineDesignPattern.SimpleImplement.Pipeline;
 
+#region Get_Sample_Input
 Console.Write("Please enter your country : ");
 string country = Console.ReadLine();
-
 Console.Write("Please enter your ip address : ");
 string ipAddress = Console.ReadLine();
+#endregion
 
+// set context in pipeline
 PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress };
 
+//init new pipline
 Pipeline requestPipeline = new(pipelineContext);
 
-IEndPoindPipelineStep<string> authenticationStep = null;
-
+// init pipeline steps
 var corsStep = new CorsStep();
 var exceptionhandlingStep = new ExceptionHandlingStep();
 var routeStep = new RouteStep();
-
-if (country.ToLower().Equals("iran"))
-{
-    authenticationStep = new IranianAuthenticationStep<string>();
-}
-else
-{
-    authenticationStep = new AmericanAuthenticationStep<string>();
-}
-var americanAuthenticationStep = new AmericanAuthenticationStep<string>();
 var product = new ProductController();
+var americanAuthenticationStep = new AmericanAuthenticationStep<string>();
+IEndPointPipelineStep<string> authenticationStep = country.ToLower().Equals("iran") ? new IranianAuthenticationStep<string>() : new AmericanAuthenticationStep<string>();
 
+// setup action chaining in pipeline
 corsStep.Action = exceptionhandlingStep.Exceute;
 exceptionhandlingStep.Action = routeStep.Exceute;
 routeStep.Action = authenticationStep.Exceute;
-
 authenticationStep.Func = product.GetAllProducts;
 
+// set start point and excute pipeline
 requestPipeline.SetStartProccessPoint(corsStep);
-
-
 requestPipeline.ExecutePipeline();
 
 Console.ReadKey();
