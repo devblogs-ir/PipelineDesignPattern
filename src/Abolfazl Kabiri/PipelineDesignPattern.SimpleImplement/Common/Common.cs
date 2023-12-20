@@ -22,7 +22,7 @@ public static class Common
         else
         {
             var validRange = GetIpCountryRanges().SingleOrDefault(i => i.Range.Equals(context.RequestIpAddress.Split('.')[0]));
-            if (validRange == null)
+            if (validRange is null)
                 throw new UnknownIpAddressException(context.RequestIpAddress);
             if (!context.Country.ToLower().Equals(validRange.CountryName.ToLower()))
                 throw new InaccessibilityException(validRange.CountryName);
