@@ -1,7 +1,7 @@
 ﻿using PipelineDesignPattern;
 
-HttpContext httpContext = new() { IP = "iran" };
-HttpContext httpContextUSA = new() { IP = "usa" };
+HttpContext httpContext = new() { IP = "85.185.20.177" };
+HttpContext httpContextUSA = new() { IP = "102.128.167.255" };
 
 ProductsController productsController = new();
 Framework framework = new();
