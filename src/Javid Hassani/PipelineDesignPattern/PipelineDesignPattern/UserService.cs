@@ -15,9 +15,7 @@ public class UserService
     };
     public void GetUserData(Context context)
     {
-        var user = _users[context.Ip];
-        if (user == null)
-            throw new NotFoundException("user with specified IP not found");
+        var user = _users[context.Ip] ?? throw new NotFoundException("user with specified IP not found");
 
         JsonSerializer.Serialize(user).Dump();
     }

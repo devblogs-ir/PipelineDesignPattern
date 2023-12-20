@@ -5,7 +5,7 @@ namespace PipelineDesignPattern;
 
 public class Pipe
 {
-    public void ExceptionHandling(Context context, Action<Context> action)
+    public static void ExceptionHandling(Context context, Action<Context> action)
     {
         try
         {
@@ -15,19 +15,17 @@ public class Pipe
 
             "ExceptionHandling End".Dump();
         }
-        catch (Exception ex)
+        catch (ForbiddenAccessException ex)
         {
-            int statusCode = ex switch
-            {
-                ForbiddenAccessException => 406,
-                Exception => 500
-            };
-
-            $"Error {statusCode} : {ex.Message}".Dump();
+            $"Error 403 : {ex.Message}".Dump();
+        }
+        catch (NotFoundException ex)
+        {
+            $"Error 404 : {ex.Message}".Dump();
         }
     }
 
-    public void Authurization(Context context, Action<Context> action)
+    public static void Authurization(Context context, Action<Context> action)
     {
         "Authorization Started".Dump();
         if (context.Ip.StartsWith("192.168"))
@@ -37,7 +35,7 @@ public class Pipe
         "Authorization End".Dump();
     }
 
-    public void Cors(Context context, Action<Context> action)
+    public static void Cors(Context context, Action<Context> action)
     {
         "Start CORS".Dump();
 

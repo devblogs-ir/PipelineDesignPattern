@@ -1,6 +1,3 @@
 ﻿namespace PipelineDesignPattern;
 
-public record Context
-{
-    public string Ip { get; set; }
-}
+public record Context(string Ip);
