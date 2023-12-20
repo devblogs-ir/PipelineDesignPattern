@@ -1,21 +1,13 @@
 ﻿using Dumpify;
 
-namespace PipelineDesignPattern
-{
+namespace PipelineDesignPattern;
     public class Framework
     {
         public void ExceptionHandling(HttpContext httpContext,Action<HttpContext> function)
         {
-            $"ExceptionHandling Started for {httpContext.IP}".Dump();
-            function(httpContext);
-            $"ExceptionHandling Ended for {httpContext.IP}".Dump();
-        }
-
-        public void Authentication(HttpContext httpContext, Action<HttpContext> function)
-        {
             try
             {
-                if (httpContext.IP == "Iran")
+                if (httpContext.IP is "Iran")
                     throw new BannedIPException(httpContext.IP);
                 else
                     function(httpContext);
@@ -25,5 +17,11 @@ namespace PipelineDesignPattern
                 ex.Message.Dump();
             }
         }
+
+        public void Authentication(HttpContext httpContext, Action<HttpContext> function)
+        {
+            $"Authentication Started for {httpContext.IP}".Dump();
+            function(httpContext);
+            $"Authentication Ended for {httpContext.IP}".Dump();            
+        }
     }
-}
