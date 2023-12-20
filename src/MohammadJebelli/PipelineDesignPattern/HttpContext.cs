@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace PipelineDesignPattern
 {
-    public class HttpContext
-    {
-        public string IP { get; set; }
-    }
+    public record HttpContext(string IP);
+   
 }
