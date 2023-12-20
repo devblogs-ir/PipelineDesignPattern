@@ -3,7 +3,7 @@ using PipelineDesignPattern.SimpleImplement.Framework;
 using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 #region Get_Sample_Input
-Console.Write("Please enter your country : ");
+Console.Write("Please enter your country (please choose Iran or Usa): ");
 string country = Console.ReadLine();
 Console.Write("Please enter your ip address : ");
 string ipAddress = Console.ReadLine();
