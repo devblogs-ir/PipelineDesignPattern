@@ -1,7 +1,6 @@
 ﻿using Dumpify;
 
-namespace PipelineDesignPattern
-{
+namespace PipelineDesignPattern;
     public class Framework
     {
         public void ExceptionHandling(HttpContext httpContext,Action<HttpContext> function)
@@ -26,4 +25,3 @@ namespace PipelineDesignPattern
             $"Authentication Ended for {httpContext.IP}".Dump();            
         }
     }
-}
