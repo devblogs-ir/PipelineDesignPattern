@@ -2,4 +2,5 @@
 public class PipelineContext : IPipelineContext
 {
     public required string RequestIpAddress { get; set; }
+    public required string Country { get; set; }
 }

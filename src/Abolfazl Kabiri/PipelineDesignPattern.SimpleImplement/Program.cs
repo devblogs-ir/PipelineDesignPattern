@@ -10,7 +10,7 @@ string ipAddress = Console.ReadLine();
 #endregion
 
 // set context in pipeline
-PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress };
+PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress, Country = country };
 
 //init new pipline
 Pipeline requestPipeline = new(pipelineContext);
@@ -20,7 +20,7 @@ var corsStep = new CorsStep();
 var exceptionhandlingStep = new ExceptionHandlingStep();
 var routeStep = new RouteStep();
 var product = new ProductController();
-IEndPointPipelineStep<string> authenticationStep = country.ToLower().Equals("iran") ? new IranianAuthenticationStep<string>() : new AmericanAuthenticationStep<string>();
+IEndPointPipelineStep<string> authenticationStep = new AuthenticationStep<string>();
 
 // setup action chaining in pipeline
 corsStep.Action = exceptionhandlingStep.Exceute;
