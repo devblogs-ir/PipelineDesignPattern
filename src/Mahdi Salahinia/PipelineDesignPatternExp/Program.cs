@@ -3,7 +3,16 @@
 var framework = new Framework();
 var ipController = new IpController();
 
-var iranIp = "192.168.22.7";
-var americaIp = "1.32.232.0";
+Console.WriteLine("Enter your Ip: ");
+var ip = Console.ReadLine();
 
-framework.ExceptionHandling(() => framework.Authentication(() => ipController.GetMyIp(americaIp)), americaIp);
+var httpContext = new HttpContext()
+{
+    IpAddress = ip
+};
+
+
+framework.Authentication(httpContext,
+                (httpContext) => framework.ExceptionHandling(httpContext, ((httpContext) => ipController.GetMyIp(httpContext))));
+
+Console.ReadKey();

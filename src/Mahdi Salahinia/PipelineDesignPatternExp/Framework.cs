@@ -4,53 +4,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace PipelineDesignPatternExp
 {
     public class Framework
     {
-        private readonly Action _action;
-
-        //CountryIp ips = new CountryIp()
-        //{
-        //    IranIps = new List<string>
-        //    {
-        //        "192.168.22.7",
-        //        "192.168.22.8",
-        //        "192.168.22.9",
-        //        "192.168.22.4"
-        //    },
-
-        //    AmericaIps = new List<string>
-        //    {
-        //        "1.32.232.0",
-        //        "2.16.55.0",
-        //        "2.16.203.1",
-        //    }
-        //};
-
-        public void ExceptionHandling(Action action, string ip)
+        public void Authentication(HttpContext httpContext, Action<HttpContext> action)
         {
+            "Start authenticate user".Dump();
+
             var ips = new CountryIp();
-            
-            if (ips.IranIps.Contains(ip))
+
+            if (ips.IranIps.Contains(httpContext.IpAddress))
             {
                 "Access Denied".Dump();
             }
             else
-            {
-                "Access is OK".Dump();
-                action();
-            }
+                action(httpContext);
+
+            "End of authenticate user".Dump();
         }
 
-        public void Authentication(Action action)
+        public void ExceptionHandling(HttpContext httpContext, Action<HttpContext> action)
         {
-            "Start Authentication".Dump();
-
-            action();
-
-            "End Authentication".Dump();
+            "Start ExceptionHandling pipe".Dump();
+            try
+            {
+                action(httpContext);
+            }
+            catch (Exception e)
+            {
+                e.Message.Dump();
+                throw;
+            }
+            "End ExceptionHandling pipe".Dump();
         }
     }
 }
