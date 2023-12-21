@@ -9,9 +9,9 @@ namespace PipelineDesignPatternExp
 {
     public class IpController
     {
-        public void GetMyIp(HttpContext httpContext)
+        public void GetUserIp(HttpContext httpContext)
         {
-            $"My Ip is {httpContext.IpAddress}".Dump();
+            $"User Ip: {httpContext.IpAddress}".Dump();
         }
     }
 }

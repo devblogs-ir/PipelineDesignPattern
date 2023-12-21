@@ -1,18 +1,19 @@
 ﻿using PipelineDesignPatternExp;
 
 var framework = new Framework();
+
 var ipController = new IpController();
 
 Console.WriteLine("Enter your Ip: ");
-var ip = Console.ReadLine();
+
+var userIp = Console.ReadLine();
 
 var httpContext = new HttpContext()
 {
-    IpAddress = ip
+    IpAddress = userIp
 };
 
-
 framework.Authentication(httpContext,
-                (httpContext) => framework.ExceptionHandling(httpContext, ((httpContext) => ipController.GetMyIp(httpContext))));
+                (httpContext) => framework.ExceptionHandling(httpContext, ((httpContext) => ipController.GetUserIp(httpContext))));
 
 Console.ReadKey();

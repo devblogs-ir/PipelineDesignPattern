@@ -6,39 +6,42 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
 
-namespace PipelineDesignPatternExp
+namespace PipelineDesignPatternExp;
+
+public class Framework
 {
-    public class Framework
+    public void Authentication(HttpContext httpContext, Action<HttpContext> action)
     {
-        public void Authentication(HttpContext httpContext, Action<HttpContext> action)
+        if (string.IsNullOrWhiteSpace(httpContext.IpAddress))
+            throw new CustomException("Ip can't be null");
+
+        "Start authenticate user".Dump();
+
+        var countryIpList = new CountryIp();
+
+        if (countryIpList.IranIps.Contains(httpContext.IpAddress))
         {
-            "Start authenticate user".Dump();
+            throw new CustomException("Iranian IPs don't have access to the program");
+        }
+        else
+            action(httpContext);
 
-            var ips = new CountryIp();
+        "End of authenticate user".Dump();
+    }
 
-            if (ips.IranIps.Contains(httpContext.IpAddress))
-            {
-                "Access Denied".Dump();
-            }
-            else
-                action(httpContext);
+    public void ExceptionHandling(HttpContext httpContext, Action<HttpContext> action)
+    {
+        "Start ExceptionHandling pipe".Dump();
 
-            "End of authenticate user".Dump();
+        try
+        {
+            action(httpContext);
+        }
+        catch
+        {
+            throw new CustomException("Authentication was unsuccessful");
         }
 
-        public void ExceptionHandling(HttpContext httpContext, Action<HttpContext> action)
-        {
-            "Start ExceptionHandling pipe".Dump();
-            try
-            {
-                action(httpContext);
-            }
-            catch (Exception e)
-            {
-                e.Message.Dump();
-                throw;
-            }
-            "End ExceptionHandling pipe".Dump();
-        }
+        "End ExceptionHandling pipe".Dump();
     }
 }
