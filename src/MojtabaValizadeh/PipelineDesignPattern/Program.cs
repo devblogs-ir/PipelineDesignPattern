@@ -13,5 +13,5 @@ framework.ExceptionHandling((context)=>framework.Authentication(countryControlle
 
 public class HttpContext
 {
-    public string Ip { get; set; }
+    public required string Ip { get; set; }
 }

@@ -4,23 +4,22 @@ namespace PipelineDesignPattern;
 
 public class Framework
 {
-    public delegate void Actions<T>(HttpContext httpContext);
-    public void Authentication(Actions<HttpContext> func,HttpContext httpContent)
+    public void Authentication(Action<HttpContext> func,HttpContext httpContent)
     {
-        if(httpContent.Ip=="192.168.0.130")
+        if(httpContent.Ip is "192.168.0.130")
         {
-            throw new Exception("you are from iran");
+            throw new CountryBlockedExceptionHandler("you are from iran");
         }
         func(httpContent);
     }
 
-    public void ExceptionHandling(Actions<HttpContext> func, HttpContext httpContent)
+    public void ExceptionHandling(Action<HttpContext> func, HttpContext httpContent)
     {
         try
         {
             func(httpContent);
         }
-        catch (Exception e)
+        catch (CountryBlockedExceptionHandler e)
         {
             "catched".Dump(e.Message);
         }
