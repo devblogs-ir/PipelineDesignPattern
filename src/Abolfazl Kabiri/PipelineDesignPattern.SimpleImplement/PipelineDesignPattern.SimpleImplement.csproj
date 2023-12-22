@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dumpify" Version="0.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="E:\Learning\.Net Mastery\Practice\Session4\PipelineDesignPattern\src\Abolfazl Kabiri\PipelineDesignPattern.SimpleImplement\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="E:\Learning\.Net Mastery\Practice\Session4\PipelineDesignPattern\src\Abolfazl Kabiri\PipelineDesignPattern.SimpleImplement\.editorconfig" />
+  </ItemGroup>
+
+</Project>
