@@ -37,6 +37,14 @@ public class Temporal
             this.loan = loan;
         }
     }
+    public void handleDebtor()
+    {
+        if (Convert.ToBoolean(loan.installment))
+        {
+            this.isDebtor = true;
+        }
+        else this.isDebtor = false;
+    }
     
     
     //AddTransaction(300);
@@ -45,6 +53,7 @@ public class Temporal
     //AddTransaction(100);
     //AddTransaction(400);
     //AddLoan
+    //handleDebtor
 
 
 }
