@@ -2,22 +2,21 @@ namespace PipelineDesignPattern;
 
 using Dumpify;
 
-internal class Framework
+public class Framework
 {
-    private readonly IDictionary<int, string> blackList = new Dictionary<int, string>()
+    private readonly IIpService ipService;
+    public Framework(IIpService ipService)
     {
-        {83, "Iran"},
-        {31, "Russia"},
-        {43, "Sudan"},
-        {13, "North Korea"},
-    };
+        this.ipService = ipService;
+    }
     public void Auth(HttpContext context, Action<HttpContext> action)
     {
         "Start Auth".Dump();
 
-        if (blackList.ContainsKey(context.IP))
+        if (ipService.IsOriginFromBannedCountries(context.IpNumber))
         {
-            throw new Exception($"Your from {blackList[context.IP]}:(");
+            var originCountry = ipService.GetOriginCountry(context.IpNumber);
+            throw new Exception($"Your from {originCountry?.Name}:(");
         }
 
         action(context);

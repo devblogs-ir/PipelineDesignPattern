@@ -1,6 +1,6 @@
 namespace PipelineDesignPattern;
 public class HttpContext
 {
-    public required int IP { get; init; }
-    public required int ID { get; init; }
+    public required string IpNumber { get; init; }
+    public required int Id { get; init; }
 }
