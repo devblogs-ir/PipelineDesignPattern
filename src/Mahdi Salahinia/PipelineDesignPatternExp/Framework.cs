@@ -33,7 +33,7 @@ public class Framework
         }
         catch (CustomException ex)
         {
-            throw new CustomException("Authentication was unsuccessful");
+            Console.WriteLine(ex.Message);
         }
 
         "End ExceptionHandling pipe".Dump();
