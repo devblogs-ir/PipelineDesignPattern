@@ -1,10 +1,4 @@
 ﻿using Dumpify;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 
 namespace PipelineDesignPatternExp;
 
@@ -23,8 +17,8 @@ public class Framework
         {
             throw new CustomException("Iranian IPs don't have access to the program");
         }
-        else
-            action(httpContext);
+
+        action(httpContext);
 
         "End of authenticate user".Dump();
     }
@@ -37,7 +31,7 @@ public class Framework
         {
             action(httpContext);
         }
-        catch
+        catch (CustomException ex)
         {
             throw new CustomException("Authentication was unsuccessful");
         }

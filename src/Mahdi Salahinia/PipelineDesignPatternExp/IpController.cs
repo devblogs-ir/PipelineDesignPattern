@@ -1,17 +1,11 @@
 ﻿using Dumpify;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PipelineDesignPatternExp
+namespace PipelineDesignPatternExp;
+
+public class IpController
 {
-    public class IpController
+    public void GetUserIp(HttpContext httpContext)
     {
-        public void GetUserIp(HttpContext httpContext)
-        {
-            $"User Ip: {httpContext.IpAddress}".Dump();
-        }
+        $"User Ip: {httpContext.IpAddress}".Dump();
     }
 }

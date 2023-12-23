@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PipelineDesignPatternExp;
 
-namespace PipelineDesignPatternExp
+public class CustomException : Exception
 {
-    public class CustomException : Exception
-    {
-        public CustomException() { }
-        public CustomException(string message) : base(message) { }
-        public CustomException(string message, Exception inner) : base(message, inner) { }
-    }
+    public CustomException() { }
+    public CustomException(string message) : base(message) { }
+    public CustomException(string message, Exception inner) : base(message, inner) { }
 }

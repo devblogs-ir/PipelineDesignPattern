@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace PipelineDesignPatternExp;
 
-namespace PipelineDesignPatternExp
+public class HttpContext
 {
-    public class HttpContext
-    {
-        public string IpAddress { get; set; }
-    }
+    public required string IpAddress { get; set; }
 }
