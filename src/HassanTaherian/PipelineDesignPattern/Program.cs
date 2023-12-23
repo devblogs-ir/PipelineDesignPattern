@@ -1,14 +1,16 @@
 ﻿using Dumpify;
 using PipelineDesignPattern;
 
-Framework framework = new();
+var countryRepository = new CountryRepository();
+var ipService = new IpService(countryRepository);
+Framework framework = new(ipService);
 ProductController productController = new();
 
 void ProcessRequest(HttpContext context)
 {
-    $"Processing Request {context.ID}".Dump();
+    $"Processing Request {context.Id}".Dump();
 
-    framework.ExceptionHandling(
+    framework.ExceptionHandller(
         context,
         (context) =>
         {
@@ -16,23 +18,23 @@ void ProcessRequest(HttpContext context)
                 context,
                 (context) =>
                 {
-                    framework.Auth(context, (context) => ProductController.GetUsers());
+                    framework.Authorization(context, (context) => ProductController.GetUsers());
                 });
         });
 
-    $"End Process of Request {context.ID}".Dump();
+    $"End Process of Request {context.Id}".Dump();
 }
 
 HttpContext iranRequest = new()
 {
-    ID = 1,
-    IP = 83
+    Id = 1,
+    IpNumber = "83.241.2.10"
 };
 
 HttpContext usRequest = new()
 {
-    ID = 2,
-    IP = 100
+    Id = 2,
+    IpNumber = "64.21.13.94"
 };
 
 
