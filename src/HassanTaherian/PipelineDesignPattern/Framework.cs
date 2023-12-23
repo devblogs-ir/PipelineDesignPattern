@@ -9,7 +9,7 @@ public class Framework
     {
         this.ipService = ipService;
     }
-    public void Auth(HttpContext context, Action<HttpContext> action)
+    public void Authorization(HttpContext context, Action<HttpContext> action)
     {
         "Start Auth".Dump();
 
@@ -21,7 +21,7 @@ public class Framework
 
         action(context);
     }
-    public void ExceptionHandling(HttpContext context, Action<HttpContext> action)
+    public void ExceptionHandller(HttpContext context, Action<HttpContext> action)
     {
         try
         {
