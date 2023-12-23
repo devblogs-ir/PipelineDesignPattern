@@ -2,17 +2,17 @@
 using OmletPipeline;
 
 
-OmletController omletPipe = new ();
-ExceptionHandler framework = new();
+OmletController omletPipe = new();
+OmletContext omlet = new();
 
 
 
-while (OmletContext.cookLine.Count!= OmletContext.instructions.Count)
+while (omlet.cookLine.Count!= omlet.instructions.Count)
 {
     
-omletPipe.handleOmletCycle(()=>omletPipe.saveStage(()=>omletPipe.validateStage(omletPipe.getStage)));
+omletPipe.SaveStage(()=>omletPipe.ValidateStage(omletPipe.GetStage,omlet.cookLine,omlet.instructions),omlet.cookLine);
 }
-if (OmletContext.cookLine.Count== OmletContext.instructions.Count)
+if (omlet.instructions.Count== omlet.instructions.Count)
 {
     Console.WriteLine("congrats . we cook omlet successfully");
 }
