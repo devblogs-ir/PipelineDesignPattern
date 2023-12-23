@@ -11,4 +11,12 @@
     <PackageReference Include="Dumpify" Version="0.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Nazanin\Projects\PipelineDesignPattern\src\Nazanin-Abbasi\PipelineDesignPattern\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Nazanin\Projects\PipelineDesignPattern\src\Nazanin-Abbasi\PipelineDesignPattern\.editorconfig" />
+  </ItemGroup>
+
 </Project>

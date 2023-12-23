@@ -6,9 +6,9 @@ ProductController productController = new();
 
 LoginPipeLine loginPipes = new();
 
-HttpContext irContext = new() { IP = 1 };
+HttpContext irContext = new() { IP = "164.215.56.0" };
 
-HttpContext usContext = new() { IP = 2 };
+HttpContext usContext = new() { IP = "170.171.1.0" };
 
 loginPipes.ExceptionHandling(irContext, (context) => loginPipes.Authentication(context, productController.GetAllProduct));
 

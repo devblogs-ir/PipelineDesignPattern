@@ -1,39 +1,41 @@
 ﻿using Dumpify;
 
-namespace PipelineDesignPattern
+namespace PipelineDesignPattern;
+
+/// <summary>
+/// Pipeline methods are defined here.
+/// </summary>
+public class LoginPipeLine
 {
-    /// <summary>
-    /// Pipeline methods are defined here.
-    /// </summary>
-    public class LoginPipeLine
+    public void Authentication(HttpContext httpContext, Action<HttpContext> action)
     {
-        public void Authentication(HttpContext httpContext, Action<HttpContext> function)
+        "Start Authentication".Dump("Authorising");
+
+        if (httpContext.IP is "164.215.56.0")
         {
-            "Start Authentication".Dump();
-
-            if (httpContext.IP == 1)
-            {
-                throw new Exception("You are not eligible to login.");
-            }
-            else
-            {
-                "Eligible".Dump("Login successful!");
-
-                function(httpContext);
-            }
+            throw new InvalidIPException("You are not eligible to login.");
         }
 
+        "Eligible".Dump("Login successful!");
 
-        public void ExceptionHandling(HttpContext httpContext, Action<HttpContext> function)
+        action(httpContext);
+
+    }
+
+
+    public void ExceptionHandling(HttpContext httpContext, Action<HttpContext> action)
+    {
+        try
         {
-            try
-            {
-                function(httpContext);
-            }
-            catch (Exception ex)
-            {
-                "Exception".Dump(ex.Message);
-            }
+            action(httpContext);
+        }
+        catch (InvalidIPException e)
+        {
+            e.Message.Dump();
+        }
+        catch (Exception ex)
+        {
+            ex.Message.Dump();
         }
     }
 }

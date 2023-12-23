@@ -1,12 +1,11 @@
 ﻿using Dumpify;
 
-namespace PipelineDesignPattern
+namespace PipelineDesignPattern;
+
+public class ProductController
 {
-    public class ProductController
+    public void GetAllProduct(HttpContext httpContext)
     {
-        public void GetAllProduct(HttpContext httpContext)
-        {
-            $"IP address {httpContext.IP} is eligible.".Dump();
-        }
+        $"IP address {httpContext.IP} is eligible.".Dump();
     }
 }

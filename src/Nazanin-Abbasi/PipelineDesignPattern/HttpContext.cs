@@ -1,5 +1,4 @@
 ﻿public class HttpContext
 {
-    public int IP { get; set; }
+    public required string IP { get; set; }
 }
-
