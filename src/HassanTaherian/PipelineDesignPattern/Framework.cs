@@ -16,7 +16,7 @@ public class Framework
         if (ipService.IsOriginFromBannedCountries(context.IpNumber))
         {
             var originCountry = ipService.GetOriginCountry(context.IpNumber);
-            throw new Exception($"Your from {originCountry?.Name}:(");
+            throw new AccessingFromBannedCountryException(originCountry?.Name);
         }
 
         action(context);
@@ -27,9 +27,9 @@ public class Framework
         {
             action(context);
         }
-        catch (Exception ex)
+        catch (AccessingFromBannedCountryException ex)
         {
-            ex.Dump();
+            ex.Message.Dump("!!!Error!!!");
         }
         finally
         {

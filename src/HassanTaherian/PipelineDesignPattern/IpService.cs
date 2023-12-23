@@ -33,6 +33,6 @@ public class IpService : IIpService
 
     private int GetOriginCountryCode(string ip)
     {
-        return int.Parse(ip.Split(':')[0]);
+        return int.Parse(ip.Split('.')[0]);
     }
 }
