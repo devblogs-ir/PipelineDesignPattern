@@ -1,9 +1,5 @@
 ﻿namespace PipelineDesignPattern;
 
-public class AccessingFromBannedCountryException : Exception
+public class AccessingFromBannedCountryException(string countryName) : Exception(Messages.AccessingFromBannedCountryException(countryName))
 {
-    public AccessingFromBannedCountryException(string countryName) : base(Messages.AccessingFromBannedCountryException(countryName))
-    {
-
-    }
 }
