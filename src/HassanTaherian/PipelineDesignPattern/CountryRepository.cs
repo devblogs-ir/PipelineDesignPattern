@@ -4,14 +4,14 @@ public class CountryRepository : ICountryRepository
     // Assume that this data will genertate by some sort of Data Access layer
     public IEnumerable<Country> FetchAll()
     {
-        return new List<Country> {
-                new("Iran", 83, true),
-                new("Russia", 31, true),
-                new("US", 64, false),
-                new("Finland", 86, false),
-                new("Sudan", 43, true),
-                new("North Korea", 13, true)
-            };
+        return [
+            new() { Name = "Iran", Code = 83, IsBanned = true },
+            new() { Name = "Russia", Code = 31, IsBanned = true },
+            new() { Name = "US", Code = 64, IsBanned = false },
+            new() { Name = "Finland", Code = 86, IsBanned = false },
+            new() { Name = "Sudan", Code = 43, IsBanned = true },
+            new() { Name = "North Korea", Code = 13, IsBanned = true }
+                ];
     }
 }
 
