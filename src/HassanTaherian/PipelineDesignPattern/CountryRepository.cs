@@ -1,5 +1,5 @@
 ﻿namespace PipelineDesignPattern;
-internal class CountryRepository : ICountryRepository
+public class CountryRepository : ICountryRepository
 {
     // Assume that this data will genertate by some sort of Data Access layer
     public IEnumerable<Country> FetchAll()

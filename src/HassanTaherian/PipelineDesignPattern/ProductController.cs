@@ -2,7 +2,7 @@ namespace PipelineDesignPattern;
 
 using Dumpify;
 
-internal class ProductController
+public class ProductController
 {
     public static void GetUsers()
     {
@@ -11,6 +11,6 @@ internal class ProductController
 
     public static void GetUserByID()
     {
-        $"Single User".Dump();
+        "Single User".Dump();
     }
 }
