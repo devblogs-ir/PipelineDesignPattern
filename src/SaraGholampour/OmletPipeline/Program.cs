@@ -7,12 +7,12 @@ OmletContext omlet = new();
 
 
 
-while (omlet.cookLine.Count!= omlet.instructions.Count)
+while (omlet.CookLine.Count!= omlet.Instructions.Count)
 {
     
-omletPipe.SaveStage(()=>omletPipe.ValidateStage(omletPipe.GetStage,omlet.cookLine,omlet.instructions),omlet.cookLine);
+omletPipe.SaveStage(()=>omletPipe.ValidateStage(omletPipe.GetStage,omlet.CookLine,omlet.Instructions),omlet.CookLine);
 }
-if (omlet.instructions.Count== omlet.instructions.Count)
+if (omlet.Instructions.Count== omlet.Instructions.Count)
 {
     Console.WriteLine("congrats . we cook omlet successfully");
 }
