@@ -3,22 +3,22 @@ using PipelineDesignPattern;
 
 var countryRepository = new CountryRepository();
 var ipService = new IpService(countryRepository);
-Framework framework = new(ipService);
+Pipeline pipeline = new(ipService);
 ProductController productController = new();
 
 void ProcessRequest(HttpContext context)
 {
     $"Processing Request {context.Id}".Dump();
 
-    framework.ExceptionHandller(
+    pipeline.ExceptionHandller(
         context,
         (context) =>
         {
-            framework.Routing(
+            pipeline.Routing(
                 context,
                 (context) =>
                 {
-                    framework.Authorization(context, (context) => ProductController.GetUsers());
+                    pipeline.Authorization(context, (context) => ProductController.GetUsers());
                 });
         });
 
@@ -28,13 +28,13 @@ void ProcessRequest(HttpContext context)
 HttpContext iranRequest = new()
 {
     Id = 1,
-    IpNumber = "83.241.2.10"
+    IpAdrress = "83.241.2.10"
 };
 
 HttpContext usRequest = new()
 {
     Id = 2,
-    IpNumber = "64.21.13.94"
+    IpAdrress = "64.21.13.94"
 };
 
 
