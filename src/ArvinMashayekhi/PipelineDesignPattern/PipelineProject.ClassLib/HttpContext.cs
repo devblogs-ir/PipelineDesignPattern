@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PipelineProject.ClassLib
+namespace PipelineProject.ClassLib;
+public class HttpContext
 {
-    public class HttpContext
-    {
-        public string IP { get; set; }
-    }
+    public string IP { get; set; }
 }
+

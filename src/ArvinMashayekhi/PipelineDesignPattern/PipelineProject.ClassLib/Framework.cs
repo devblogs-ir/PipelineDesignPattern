@@ -1,36 +1,35 @@
 ﻿using Dumpify;
 
 
-namespace PipelineProject.ClassLib
+namespace PipelineProject.ClassLib;
+
+public class Framework
 {
-    public class Framework
+    public void IPAuthentication(HttpContext context, Action<HttpContext> next)
     {
-        public void IPAuthentication(HttpContext context, Action<HttpContext> next)
+        "check your IP Address".Dump();
+        if (string.Compare(context.IP, "192.168.0.130", StringComparison.OrdinalIgnoreCase) == 0)
         {
-            "check your IP Address".Dump();
-            if (string.Compare(context.IP, "iran", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                throw new CheckBanndIPAddress(ip: context.IP);
-            }
-            else
-                next(context);
-
-            "End of checking IP address".Dump();
+            throw new CheckBanndIPAddress(context.IP);
         }
+        else
+            next(context);
 
-        public void ExceptionHandling(HttpContext context, Action<HttpContext> next)
+        "End of checking IP address".Dump();
+    }
+
+    public void ExceptionHandling(HttpContext context, Action<HttpContext> next)
+    {
+        "Start ExceptionHandling ".Dump();
+        try
         {
-            "Start ExceptionHandling ".Dump();
-            try
-            {
-                next(context);
-            }
-            catch (Exception e)
-            {
-                e.Message.Dump();
-                throw;
-            }
-            "End ExceptionHandling ".Dump();
+            next(context);
         }
+        catch (CheckBanndIPAddress e)
+        {
+            e.Message.Dump();
+        }
+        "End ExceptionHandling ".Dump();
     }
 }
+
