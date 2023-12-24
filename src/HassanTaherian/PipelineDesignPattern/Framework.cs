@@ -2,10 +2,10 @@ namespace PipelineDesignPattern;
 
 using Dumpify;
 
-public class Framework
+public class Pipeline
 {
     private readonly IIpService ipService;
-    public Framework(IIpService ipService)
+    public Pipeline(IIpService ipService)
     {
         this.ipService = ipService;
     }
@@ -13,9 +13,9 @@ public class Framework
     {
         "Start Auth".Dump();
 
-        if (ipService.IsOriginFromBannedCountries(context.IpNumber))
+        if (ipService.IsOriginFromBannedCountries(context.IpAdrress))
         {
-            var originCountry = ipService.GetOriginCountry(context.IpNumber);
+            var originCountry = ipService.GetOriginCountry(context.IpAdrress);
             throw new AccessingFromBannedCountryException(originCountry?.Name);
         }
 
