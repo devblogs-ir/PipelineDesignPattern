@@ -20,7 +20,12 @@ void ProcessRequest(HttpContext context)
     authorizationHandler.Next = routingHandler.Handle;
     routingHandler.Next = productController.GetUsers;
 
-    exceptionHandler.Handle(context);
+    PipelineBuilder pipelineBuilder = new();
+    pipelineBuilder.AddHandler(exceptionHandler)
+                   .AddHandler(authorizationHandler)
+                   .AddHandler(routingHandler);
+
+    pipelineBuilder.Run(context);
 
     $"End Process of Request {context.Id}".Dump();
 }
