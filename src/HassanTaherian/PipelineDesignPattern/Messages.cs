@@ -6,5 +6,11 @@ public static class Messages
     {
         return $"We're sorry! We can't service customers from {countryName}:(";
     }
+
+    public static string InvalidUrlFormatException()
+    {
+        return "URL format mush be {controller}/{action}/{parameter}";
+
+    }
 }
 

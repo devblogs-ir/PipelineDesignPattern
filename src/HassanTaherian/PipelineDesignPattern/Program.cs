@@ -3,7 +3,6 @@ using PipelineDesignPattern;
 using PipelineDesignPattern.Handlers;
 
 var countryRepository = new CountryRepository();
-//Pipeline pipeline = new(ipService);
 ProductController productController = new();
 
 void ProcessRequest(HttpContext context)
@@ -29,16 +28,26 @@ void ProcessRequest(HttpContext context)
 HttpContext iranRequest = new()
 {
     Id = 1,
-    IpAdrress = "83.241.2.10"
+    IpAdrress = "83.241.2.10",
+    Request = new HttpRequest { Url = "Product/GetUsers" }
 };
 
 HttpContext usRequest = new()
 {
     Id = 2,
-    IpAdrress = "64.21.13.94"
+    IpAdrress = "64.21.13.94",
+    Request = new HttpRequest { Url = "Product/GetUsers" }
+};
+
+HttpContext getUserByIdRequest = new()
+{
+    Id = 2,
+    IpAdrress = "64.21.13.94",
+    Request = new HttpRequest { Url = "Product/GetUserById/2" }
 };
 
 
 
 ProcessRequest(iranRequest);
 ProcessRequest(usRequest);
+ProcessRequest(getUserByIdRequest);
