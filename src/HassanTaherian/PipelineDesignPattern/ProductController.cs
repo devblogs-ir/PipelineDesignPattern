@@ -4,12 +4,12 @@ using Dumpify;
 
 public class ProductController
 {
-    public static void GetUsers()
+    public void GetUsers(HttpContext httpContext)
     {
         "All Users".Dump();
     }
 
-    public static void GetUserByID()
+    public void GetUserByID(HttpContent httpContent)
     {
         "Single User".Dump();
     }

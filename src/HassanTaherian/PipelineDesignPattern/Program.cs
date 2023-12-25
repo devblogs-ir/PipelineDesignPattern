@@ -1,26 +1,26 @@
 ﻿using Dumpify;
 using PipelineDesignPattern;
+using PipelineDesignPattern.Handlers;
 
 var countryRepository = new CountryRepository();
-var ipService = new IpService(countryRepository);
-Pipeline pipeline = new(ipService);
+//Pipeline pipeline = new(ipService);
 ProductController productController = new();
 
 void ProcessRequest(HttpContext context)
 {
+    var ipService = new IpService(countryRepository);
+
     $"Processing Request {context.Id}".Dump();
 
-    pipeline.ExceptionHandller(
-        context,
-        (context) =>
-        {
-            pipeline.Routing(
-                context,
-                (context) =>
-                {
-                    pipeline.Authorization(context, (context) => ProductController.GetUsers());
-                });
-        });
+    RoutingHandler routingHandler = new();
+    ExceptionHandler exceptionHandler = new();
+    AuthorizationHandler authorizationHandler = new(ipService);
+
+    exceptionHandler.Next = authorizationHandler.Handle;
+    authorizationHandler.Next = routingHandler.Handle;
+    routingHandler.Next = productController.GetUsers;
+
+    exceptionHandler.Handle(context);
 
     $"End Process of Request {context.Id}".Dump();
 }
