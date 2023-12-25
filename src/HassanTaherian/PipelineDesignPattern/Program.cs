@@ -14,11 +14,14 @@ void ProcessRequest(HttpContext context)
     RoutingHandler routingHandler = new();
     ExceptionHandler exceptionHandler = new();
     AuthorizationHandler authorizationHandler = new(ipService);
+    EndPointHandler endPointHandler = new();
+
 
     PipelineBuilder pipelineBuilder = new();
     pipelineBuilder.AddHandler(exceptionHandler)
                    .AddHandler(authorizationHandler)
-                   .AddHandler(routingHandler);
+                   .AddHandler(routingHandler)
+                   .AddHandler(endPointHandler);
 
     pipelineBuilder.Run(context);
 
@@ -41,9 +44,24 @@ HttpContext usRequest = new()
 
 HttpContext getUserByIdRequest = new()
 {
-    Id = 2,
+    Id = 3,
     IpAdrress = "64.21.13.94",
     Request = new HttpRequest { Url = "Product/GetUserById/2" }
+};
+
+HttpContext invalidUrlRequestFormat = new()
+{
+    Id = 4,
+    IpAdrress = "64.21.13.94",
+    Request = new HttpRequest { Url = "Product/GetUser/name/2" }
+};
+
+
+HttpContext invalidEndPointRequest = new()
+{
+    Id = 5,
+    IpAdrress = "64.21.13.94",
+    Request = new HttpRequest { Url = "Product/GetUserByName/2" }
 };
 
 
@@ -51,3 +69,5 @@ HttpContext getUserByIdRequest = new()
 ProcessRequest(iranRequest);
 ProcessRequest(usRequest);
 ProcessRequest(getUserByIdRequest);
+ProcessRequest(invalidUrlRequestFormat);
+ProcessRequest(invalidEndPointRequest);

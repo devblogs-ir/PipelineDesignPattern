@@ -10,7 +10,11 @@ public static class Messages
     public static string InvalidUrlFormatException()
     {
         return "URL format mush be {controller}/{action}/{parameter}";
+    }
 
+    public static string EndPointNotFoundException(string url)
+    {
+        return $"URL {url} not found!";
     }
 }
 
