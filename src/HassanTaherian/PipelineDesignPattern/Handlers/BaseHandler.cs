@@ -1,5 +1,5 @@
 ﻿namespace PipelineDesignPattern.Handlers;
-public abstract class BaseHandler
+public abstract class BaseHandler : IHandler
 {
     protected Action<HttpContext>? next;
 

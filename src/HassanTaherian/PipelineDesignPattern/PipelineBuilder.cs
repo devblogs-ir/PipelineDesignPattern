@@ -3,21 +3,22 @@
 namespace PipelineDesignPattern;
 public class PipelineBuilder
 {
-    private BaseHandler? entryPoint { get; set; }
-    private BaseHandler? lastHandler { get; set; }
+    private IHandler? entryPoint { get; set; }
+    private IHandler? lastHandler { get; set; }
 
-    public PipelineBuilder AddHandler(BaseHandler baseHandler)
+    public PipelineBuilder AddHandler(IHandler baseHandler)
     {
-        if (!IsThereHandlerInPipeline())
+        if (IsThereHandlerInPipeline())
         {
-            entryPoint = baseHandler;
-            lastHandler = baseHandler;
+            lastHandler.Next = baseHandler.Handle;
         }
         else
         {
-            lastHandler.Next = baseHandler.Handle;
-            lastHandler = baseHandler;
+            entryPoint = baseHandler;
         }
+
+        lastHandler = baseHandler;
+
         return this;
     }
 
