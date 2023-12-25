@@ -16,10 +16,6 @@ void ProcessRequest(HttpContext context)
     ExceptionHandler exceptionHandler = new();
     AuthorizationHandler authorizationHandler = new(ipService);
 
-    exceptionHandler.Next = authorizationHandler.Handle;
-    authorizationHandler.Next = routingHandler.Handle;
-    routingHandler.Next = productController.GetUsers;
-
     PipelineBuilder pipelineBuilder = new();
     pipelineBuilder.AddHandler(exceptionHandler)
                    .AddHandler(authorizationHandler)
