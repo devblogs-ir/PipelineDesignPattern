@@ -3,12 +3,12 @@
 public sealed class Framework
 {
     public void ExceptionHandling(
-        Action<MyContext> action,
-        MyContext myContext)
+        Action<Context> action,
+        Context context)
     {
         try
         {
-            action(myContext);
+            action(context);
         }
         catch (BlockedIpException ex)
         {
@@ -20,8 +20,8 @@ public sealed class Framework
     }
 
     public void Authentication(
-        Action<MyContext> action,
-        MyContext myContext)
+        Action<Context> action,
+        Context myContext)
     {
         "Starting Authentication for user with IP: ".Dump($"{myContext.UserIp}");
 
