@@ -3,13 +3,13 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework;
 
-public class CorsStep : IPipe
+public class RoutePipe : IPipe
 {
     public Action<IPipelineContext> Next { get; set; }
     public void Invoke(IPipelineContext context)
     {
-        "Starting cors".Dump();
+        "Starting route".Dump();
         Next(context);
-        "End cors".Dump();
+        "End route".Dump();
     }
 }

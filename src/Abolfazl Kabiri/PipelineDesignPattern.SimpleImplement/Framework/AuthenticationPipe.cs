@@ -3,13 +3,14 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework;
 
-public class RouteStep : IPipe
+public class AuthenticationPipe : IPipe
 {
     public Action<IPipelineContext> Next { get; set; }
     public void Invoke(IPipelineContext context)
     {
-        "Starting route".Dump();
+        "Starting auth".Dump();
+        Ip.IsValidate(context);
         Next(context);
-        "End route".Dump();
+        "End auth".Dump();
     }
 }

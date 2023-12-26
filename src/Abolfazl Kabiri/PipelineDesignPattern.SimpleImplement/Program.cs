@@ -16,17 +16,17 @@ public class Program
                 PipelineContext pipelineContext = new() { RequestIpAddress = option.Ip, Country = option.Country, Url = option.Url };
 
                 // init pipes
-                var cors = new CorsStep();
-                var exceptionhandling = new ExceptionHandlingStep();
-                var route = new RouteStep();
+                var cors = new CorsPipe();
+                var exceptionhandling = new ExceptionHandlingPipe();
+                var route = new RoutePipe();
                 var product = new ProductController();
-                var authentication = new AuthenticationStep();
+                var authentication = new AuthenticationPipe();
 
                 // setup action chaining in pipeline
                 cors.Next = exceptionhandling.Invoke;
                 exceptionhandling.Next = route.Invoke;
                 route.Next = authentication.Invoke;
-                authentication.Next = new EndPointStep().Invoke;
+                authentication.Next = new EndPointPipe().Invoke;
 
                 // set pipes and run 
                 new Pipeline(pipelineContext)

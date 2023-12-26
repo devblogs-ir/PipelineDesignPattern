@@ -3,14 +3,13 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework;
 
-public class AuthenticationStep : IPipe
+public class CorsPipe : IPipe
 {
     public Action<IPipelineContext> Next { get; set; }
     public void Invoke(IPipelineContext context)
     {
-        "Starting auth".Dump();
-        Common.ValidateIpAddress(context);
+        "Starting cors".Dump();
         Next(context);
-        "End auth".Dump();
+        "End cors".Dump();
     }
 }
