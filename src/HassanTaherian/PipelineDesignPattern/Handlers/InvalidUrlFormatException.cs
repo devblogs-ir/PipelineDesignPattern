@@ -1,4 +1,4 @@
 ﻿namespace PipelineDesignPattern.Handlers;
-public class InvalidUrlFormatException() : Exception(Messages.InvalidUrlFormatException())
+public class InvalidUrlFormatException() : ApplicationException(Messages.InvalidUrlFormatException())
 {
 }

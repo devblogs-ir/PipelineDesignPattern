@@ -1,7 +1,7 @@
 ﻿using Dumpify;
 
 namespace PipelineDesignPattern.Handlers;
-public class ExceptionHandler() : BaseHandler
+public class ExceptionHandler : BaseHandler
 {
     public override void Handle(HttpContext httpContext)
     {
@@ -9,7 +9,7 @@ public class ExceptionHandler() : BaseHandler
         {
             next?.Invoke(httpContext);
         }
-        catch (AccessingFromBannedCountryException ex)
+        catch (Exception ex) when (ex is ApplicationException)
         {
             ex.Message.Dump("!!!Error!!!");
         }
