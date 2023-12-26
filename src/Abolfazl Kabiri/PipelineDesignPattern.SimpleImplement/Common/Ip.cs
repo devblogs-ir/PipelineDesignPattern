@@ -3,7 +3,7 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 using System.Net;
 
 namespace PipelineDesignPattern.SimpleImplement;
-public static class Common
+public static class Ip
 {
     private static IEnumerable<IpCountryRange> GetIpCountryRanges()
     {
@@ -13,7 +13,7 @@ public static class Common
             new IpCountryRange{ CountryName = "Usa",Range = "200"}
         };
     }
-    public static bool ValidateIpAddress(IPipelineContext context)
+    public static bool IsValidate(IPipelineContext context)
     {
         IPAddress parsedIpAddress;
         IPAddress.TryParse(context.RequestIpAddress, out parsedIpAddress);

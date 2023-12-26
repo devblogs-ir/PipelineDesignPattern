@@ -1,35 +1,42 @@
-﻿using PipelineDesignPattern.SimpleImplement.Controllers;
+﻿using CommandLine;
+using PipelineDesignPattern.SimpleImplement.Controllers;
 using PipelineDesignPattern.SimpleImplement.Framework;
+using PipelineDesignPattern.SimpleImplement.Patterns;
 using PipelineDesignPattern.SimpleImplement.Pipeline;
 
-#region Get_Sample_Input
-Console.Write("Please enter your country (please choose Iran or Usa): ");
-string country = Console.ReadLine();
-Console.Write("Please enter your ip address : ");
-string ipAddress = Console.ReadLine();
-#endregion
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Parser.Default
+            .ParseArguments<HttpRequestPattern>(args)
+            .WithParsed(option =>
+            {
+                // set context in pipeline
+                PipelineContext pipelineContext = new() { RequestIpAddress = option.Ip, Country = option.Country, Url = option.Url };
 
-// set context in pipeline
-PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress, Country = country };
+                // init pipes
+                var cors = new CorsPipe();
+                var exceptionhandling = new ExceptionHandlingPipe();
+                var route = new RoutePipe();
+                var product = new ProductController();
+                var authentication = new AuthenticationPipe();
 
-//init new pipline
-Pipeline requestPipeline = new(pipelineContext);
+                // setup action chaining in pipeline
+                cors.Next = exceptionhandling.Invoke;
+                exceptionhandling.Next = route.Invoke;
+                route.Next = authentication.Invoke;
+                authentication.Next = new EndPointPipe().Invoke;
 
-// init pipeline steps
-var corsStep = new CorsStep();
-var exceptionhandlingStep = new ExceptionHandlingStep();
-var routeStep = new RouteStep();
-var product = new ProductController();
-IEndPointPipelineStep<string> authenticationStep = new AuthenticationStep<string>();
+                // set pipes and run 
+                new Pipeline(pipelineContext)
+                              .AddPipe(cors)
+                              .AddPipe(exceptionhandling)
+                              .AddPipe(route)
+                              .AddPipe(authentication)
+                              .Run();
+            });
+        Console.ReadKey();
+    }
 
-// setup action chaining in pipeline
-corsStep.Action = exceptionhandlingStep.Exceute;
-exceptionhandlingStep.Action = routeStep.Exceute;
-routeStep.Action = authenticationStep.Exceute;
-authenticationStep.Func = product.GetAllProducts;
-
-// set start point and excute pipeline
-requestPipeline.SetStartProccessPoint(corsStep);
-requestPipeline.ExecutePipeline();
-
-Console.ReadKey();
+}
