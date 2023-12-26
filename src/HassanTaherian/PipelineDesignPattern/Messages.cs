@@ -16,5 +16,10 @@ public static class Messages
     {
         return $"URL {url} not found!";
     }
+
+    public static string CliOptionNotProvidedException(string optionName)
+    {
+        return $"Option -{optionName} not provided!";
+    }
 }
 
