@@ -1,4 +1,6 @@
 ﻿using Dumpify;
+using PipelineDesignPattern.Pipes;
+using System.Reflection;
 using System.Runtime;
 
 namespace PipelineDesignPattern
@@ -7,26 +9,30 @@ namespace PipelineDesignPattern
     {
         static void Main(string[] args)
         {
-            Framework framework = new Framework();
+            HTTPContext context = new()
+            {
+                IP = "127.0.0.1",
+                Url = "localhost:4545/Order/GetAll"
+            };
 
-            Controller controller = new Controller();
+            
 
-            HTTPContext context = new HTTPContext();
 
-            Console.WriteLine("Type your country name (iran,usa) : ");
+            Console.WriteLine("Type your url (like this: mysite/Product/GetAll ) (product or order) : ");
+            context.Url = Console.ReadLine();
+
+
+            Console.WriteLine("Where are you? (iran or usa) : ");
             context.IP = Console.ReadLine();
 
-            Console.WriteLine("Type your useId (1 or something else) : ");
-            context.UserId = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("What do you need? (product or order) : ");
-            context.Destination = Console.ReadLine();
+            var endPoint = new EndPointPipe(null);
+            var authentication = new AuthenticationPipe(endPoint.Handle);
+            var locationManger = new LocationManagmentPipe(authentication.Handle);
 
-            Action<HTTPContext> endPoint = controller.Get;
+            locationManger.Handle(context);
 
-            framework.ExceptionHandling(context, context =>
-                framework.AuthenticationHandling(context, context=> 
-                framework.RoutingHandling(context,controller.Get)));
+            Console.ReadKey();
         }
     }
 }

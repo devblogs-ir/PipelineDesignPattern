@@ -1,50 +1,15 @@
 ﻿using Dumpify;
-using PipelineDesignPattern.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PipelineDesignPattern
+namespace PipelineDesignPattern.Pipes
 {
-
-    public class Framework
+    public class EndPointPipe : Pipe
     {
-        public const string Iran = "iran";
-        public void HandleLocationException(HTTPContext http, Action<HTTPContext> exeptionAction)
+        public EndPointPipe(Action<HTTPContext> next) : base(next)
         {
-            "considering IP Address...".Dump();
-            try
-            {
-                if (http.IP is Iran)
-                {
-                    throw new GeoLocationException(Iran);
-                }
-                else
-                    exeptionAction(http);
-            }
-            catch (GeoLocationException ex)
-            {
-                ex.Message.Dump();
-            }
+
         }
-        public void HandleAuthentication(HTTPContext http, Action<HTTPContext> authAction)
-        {
-            "Starting Authentication by userId...".Dump();
-            for (int i = 0; i < 3; i++)
-            {
-                Console.WriteLine(".");
-            }
-
-
-            "Authentication Operation ends here!".Dump();
-            authAction(http);
-        }
-
-        public void HandleEndpoint(HTTPContext context, Action<HTTPContext> routingAction)
+        public override void Handle(HTTPContext context)
         {
             Console.WriteLine("a request recieved from " + context.IP.ToString());
             var urlParts = context.Url.Split('/');
@@ -85,7 +50,12 @@ namespace PipelineDesignPattern
             {
                 (ex.Message + "Please Check Route Data").Dump();
             }
-            //routingAction(context);
+            finally
+            {
+                if (_next is not null)
+                    _next(context);
+            }
+
         }
     }
 }

@@ -5,8 +5,18 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <PackAsTool>true</PackAsTool>
+	  <ToolCommandName>pipeline</ToolCommandName>
+	  <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Dumpify" Version="0.6.3" />
 	</ItemGroup>
 </Project>
+
+
+
+
+
+
+

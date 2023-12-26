@@ -8,9 +8,7 @@ namespace PipelineDesignPattern
 {
     public class HTTPContext
     {
-        public int UserId {  get; set; }
         public string IP { get; set; }
-
-        public string Destination { get; set; }
+        public string Url { get; set; }
     }
 }
