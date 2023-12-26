@@ -9,7 +9,7 @@ public class ExceptionHandler : BaseHandler
         {
             next?.Invoke(httpContext);
         }
-        catch (Exception ex) when (ex is ApplicationException)
+        catch (ApplicationException ex)
         {
             ex.Message.Dump("!!!Error!!!");
         }

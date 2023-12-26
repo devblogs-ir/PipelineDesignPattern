@@ -27,7 +27,14 @@ public class EndPointHandler : BaseHandler
         }
 
         var classInstance = Activator.CreateInstance(type);
+        if (endPoint.Parameter is not null)
+        {
+            methodInfo.Invoke(classInstance, [context,  int.Parse(endPoint.Parameter)]);
+        }
+        else
+        {
+            methodInfo.Invoke(classInstance, [context]);
+        }
 
-        methodInfo.Invoke(classInstance, [endPoint.Parameter]);
     }
 }

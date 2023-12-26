@@ -9,8 +9,8 @@ public class ProductController
         "All Users".Dump();
     }
 
-    public void GetUserByID(HttpContent httpContent)
+    public void GetUserById(HttpContext httpContext, int id)
     {
-        "Single User".Dump();
+        $"Single User {id}".Dump();
     }
 }
