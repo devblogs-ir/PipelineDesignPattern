@@ -10,4 +10,15 @@ public class ProductsController
     {
         Console.WriteLine("all products");
     }
+    public void GetUserById(int Id)
+    {
+        var items = new List<string>
+        {
+            "Mohammad",
+            "Nabi",
+            "Zahra",
+            "Arman"
+        };
+        Console.WriteLine(items[Id]);
+    }
 }

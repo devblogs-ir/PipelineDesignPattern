@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PipelineDesignPattern;
 public class Framework
@@ -34,12 +35,19 @@ public class Framework
         var parts = httpContext.Url.Split('/');
         var controllerClass = parts[1];
         var actionMethod = parts[2];
+        var userId = parts[3];
         var templateControllerName = $"PipelineDesignPattern.{controllerClass}Controller";
         var typeController = Type.GetType(templateControllerName);
+        MethodInfo method = typeController.GetMethod(actionMethod);
+        var parametersInfo = method.GetParameters();
+     
+        var userIdAsInt = Convert.ChangeType(userId, parametersInfo[0].ParameterType);
+
+
         var instance = Activator.CreateInstance(typeController, new[] {httpContext});
         //var productsController = instance as ProductsController;
-        MethodInfo method = typeController.GetMethod(actionMethod);
-        method.Invoke(instance, null);
+        
+        method.Invoke(instance, new[] { userIdAsInt });
 
 
     }
