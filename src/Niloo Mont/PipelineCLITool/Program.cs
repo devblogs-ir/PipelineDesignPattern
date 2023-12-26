@@ -1,33 +1,35 @@
-﻿using PipelineCLITool;
+﻿using Dumpify;
+using PipelineCLITool;
 
 Framework framework = new();
 
-HttpContext GetAllProductsRequest = new()
+string? ipArg = null;
+string? urlArg = null;
+
+for (int i = 0; i < args.Length; i++)
 {
-    IP = "Iran",
-    Url = "localhost:7777/Products/GetAllProducts"
-};
-HttpContext GetAllProductsRequest2 = new()
+    if (args[i] == "--ip" && i + 1 < args.Length)
+    {
+        ipArg = args[++i];
+    }
+    else if (args[i] == "--url" && i + 1 < args.Length)
+    {
+        urlArg = args[++i];
+    }
+}
+
+if (ipArg == null || urlArg == null)
 {
-    IP = "USA",
-    Url = "localhost:7777/Products/GetUserById/2"
-};
-HttpContext GetAllProductsRequest3 = new()
+    "You must specify both --ip and --url.".Dump();
+    return;
+}
+
+HttpContext request = new()
 {
-    IP = "USA",
-    Url = "localhost:7777/Products/GetAllProducts"
+    IP = ipArg,
+    Url = urlArg
 };
 
-framework.AuthenticationHandling(GetAllProductsRequest,
+framework.AuthenticationHandling(request,
     (context) => framework.ExceptionHandling((context),
     (context) => framework.EndpointHandling(context, null!)));
-
-framework.AuthenticationHandling(GetAllProductsRequest2,
-    (context) => framework.ExceptionHandling((context),
-    (context) => framework.EndpointHandling(context, null!)));
-
-framework.AuthenticationHandling(GetAllProductsRequest3,
-    (context) => framework.ExceptionHandling((context),
-    (context) => framework.EndpointHandling(context, null!)));
-
-
