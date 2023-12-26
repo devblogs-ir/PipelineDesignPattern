@@ -1,4 +1,5 @@
 ﻿using Dumpify;
+using System.Reflection;
 
 namespace PipelineDesignPatternExp;
 
@@ -21,6 +22,26 @@ public class Framework
         action(httpContext);
 
         "End of authenticate user".Dump();
+    }
+
+    public void EndPointHandling(HttpContext httpContext, Action<HttpContext> action)
+    {
+        var urlParts = httpContext.Url.Split('/');
+
+        var controllerName = urlParts[1];
+        var methodName = urlParts[2];
+
+        var assemblyAddress = $"PipelineDesignPatternExp.{controllerName}Controller";
+
+        var type = Type.GetType(assemblyAddress);
+
+        var runTimeInstance = Activator.CreateInstance(type);
+
+        //var productsController = runTimeInstance as ProductsController;
+
+        MethodInfo method = type.GetMethod(methodName);
+
+        method.Invoke(runTimeInstance, null);
     }
 
     public void ExceptionHandling(HttpContext httpContext, Action<HttpContext> action)
