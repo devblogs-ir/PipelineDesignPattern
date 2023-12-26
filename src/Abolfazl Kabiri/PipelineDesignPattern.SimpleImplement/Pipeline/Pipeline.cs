@@ -1,9 +1,10 @@
-﻿namespace PipelineDesignPattern.SimpleImplement.Pipeline;
+﻿using PipelineDesignPattern.SimpleImplement.CustomExceptions;
+
+namespace PipelineDesignPattern.SimpleImplement.Pipeline;
 public class Pipeline
 {
     readonly IPipelineContext _context;
-
-    List<IPipe> pipes;
+    readonly List<IPipe> pipes;
 
     public Pipeline(IPipelineContext context)
     {
@@ -16,5 +17,9 @@ public class Pipeline
         return this;
     }
 
-    public void Run() => pipes[0].Invoke(_context);
+    public void Run()
+    {
+        if (!pipes.Any()) throw new NotImplementedPipelineException();
+        pipes[0].Invoke(_context);
+    }
 }

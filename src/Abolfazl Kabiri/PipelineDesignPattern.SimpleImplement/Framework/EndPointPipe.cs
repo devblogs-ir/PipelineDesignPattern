@@ -10,8 +10,7 @@ public class EndPointPipe : IPipe
 
     public void Invoke(IPipelineContext context)
     {
-        var controller = Url.GetController(context.Url);
-        var method = Url.GetAction(context.Url);
+        (string controller, string method) = Url.GetUrlPath(context.Url);
 
         var metaData = $"PipelineDesignPattern.SimpleImplement.Controllers.{controller}Controller";
         string assemblyPath = Assembly.GetExecutingAssembly().Location;
