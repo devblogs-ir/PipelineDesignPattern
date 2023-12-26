@@ -1,15 +1,11 @@
 ﻿using PipelineDesignPattern;
 
-HttpContext httpContext = new() { IP = "85.185.20.177" };
-HttpContext httpContextUSA = new() { IP = "102.128.167.255" };
-
-ProductsController productsController = new();
 Framework framework = new();
+HttpContext requestGetAllProducts = new() { 
+    IP = "123.185.20.177",
+    Url = "localhost:4545/Orders/GetAll"
+};
 
-framework.ExceptionHandling(httpContext,
+framework.ExceptionHandling(requestGetAllProducts,
     (context) => framework.Authentication(context,
-    (context) => productsController.GetAll(context)));
-
-framework.ExceptionHandling(httpContextUSA,
-    (context) => framework.Authentication(context,
-    (context) => productsController.GetAll(context)));
+    (context) => framework.EndpointHandling(context,null!)));
