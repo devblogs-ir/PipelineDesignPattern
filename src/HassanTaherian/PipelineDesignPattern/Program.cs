@@ -1,47 +1,46 @@
-﻿using PipelineDesignPattern;
+﻿using Dumpify;
+using PipelineDesignPattern;
 
+IList<CliOption> ExtractOptions(string[] args)
+{
+    var options = new List<CliOption>();
 
-HttpContext iranRequest = new()
+    for (int i = 0; i < args.Length; i += 2)
+    {
+        if (args[i].StartsWith("-"))
+        {
+            CliOption option = new(args[i][1..], args[i + 1]);
+            options.Add(option);
+        }
+    }
+    return options;
+}
+
+var options = ExtractOptions(args);
+
+var ip = options.FirstOrDefault(option => option.Name == "ip");
+if (ip is null)
+{
+    "Haven't Specified IP with -ip option".Dump();
+    return;
+}
+
+var url = options.FirstOrDefault(option => option.Name == "url");
+
+if (url is null)
+{
+    "Haven't Specified Url with -url option".Dump();
+    return;
+}
+
+HttpContext request = new()
 {
     Id = 1,
-    IpAdrress = "83.241.2.10",
-    Request = new HttpRequest { Url = "Product/GetUsers" }
+    IpAdrress = ip.Value,
+    Request = new()
+    {
+        Url = url.Value
+    }
 };
 
-HttpContext usRequest = new()
-{
-    Id = 2,
-    IpAdrress = "64.21.13.94",
-    Request = new HttpRequest { Url = "Product/GetUsers" }
-};
-
-HttpContext getUserByIdRequest = new()
-{
-    Id = 3,
-    IpAdrress = "64.21.13.94",
-    Request = new HttpRequest { Url = "Product/GetUserById/2" }
-};
-
-HttpContext invalidUrlRequestFormat = new()
-{
-    Id = 4,
-    IpAdrress = "64.21.13.94",
-    Request = new HttpRequest { Url = "Product/GetUser/name/2" }
-};
-
-
-HttpContext invalidEndPointRequest = new()
-{
-    Id = 5,
-    IpAdrress = "64.21.13.94",
-    Request = new HttpRequest { Url = "Product/GetUserByName/2" }
-};
-
-
-IPipelineDirector pipelineDirector = new PipelineDirector();
-
-pipelineDirector.Process(iranRequest);
-pipelineDirector.Process(usRequest);
-pipelineDirector.Process(getUserByIdRequest);
-pipelineDirector.Process(invalidUrlRequestFormat);
-pipelineDirector.Process(invalidEndPointRequest);
+new PipelineDirector().Process(request);
