@@ -8,7 +8,7 @@ namespace PipLineDesignPattern
         {
             try
             {
-                if (context.IP % 10000 > 999) //Its fun
+                if (context.IP % 10000 > 999)
                     throw new IpNotTrueException(context.IP);
 
 
