@@ -22,4 +22,4 @@ public abstract class Pipe
     }
 }
 
-public class ExceptionHandling(Action<HttpContext> nextAction):Pipe(nextAction)
+// public class ExceptionHandling(Action<HttpContext> nextAction):Pipe(nextAction)
