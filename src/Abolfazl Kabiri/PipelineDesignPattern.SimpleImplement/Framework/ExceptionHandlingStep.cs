@@ -4,15 +4,15 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework;
 
-public class ExceptionHandlingStep : IPipelineStep
+public class ExceptionHandlingStep : IPipe
 {
-    public Action<IPipelineContext> Action { get; set; }
-    public void Exceute(IPipelineContext context)
+    public Action<IPipelineContext> Next { get; set; }
+    public void Invoke(IPipelineContext context)
     {
         try
         {
             "starting exception handling".Dump();
-            Action(context);
+            Next(context);
         }
         catch (InvalidIpAddressException ex)
         {

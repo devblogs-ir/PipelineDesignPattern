@@ -7,29 +7,32 @@ Console.Write("Please enter your country (please choose Iran or Usa): ");
 string country = Console.ReadLine();
 Console.Write("Please enter your ip address : ");
 string ipAddress = Console.ReadLine();
+Console.Write("Please enter your endpoint : ");
+string endpoint = Console.ReadLine();
 #endregion
 
 // set context in pipeline
-PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress, Country = country };
+PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress, Country = country,Url=endpoint };
 
-//init new pipline
-Pipeline requestPipeline = new(pipelineContext);
-
-// init pipeline steps
+// init pipes
 var corsStep = new CorsStep();
 var exceptionhandlingStep = new ExceptionHandlingStep();
 var routeStep = new RouteStep();
 var product = new ProductController();
-IEndPointPipelineStep<string> authenticationStep = new AuthenticationStep<string>();
+var authenticationStep = new AuthenticationStep();
 
 // setup action chaining in pipeline
-corsStep.Action = exceptionhandlingStep.Exceute;
-exceptionhandlingStep.Action = routeStep.Exceute;
-routeStep.Action = authenticationStep.Exceute;
-authenticationStep.Func = product.GetAllProducts;
+corsStep.Next = exceptionhandlingStep.Invoke;
+exceptionhandlingStep.Next = routeStep.Invoke;
+routeStep.Next = authenticationStep.Invoke;
+authenticationStep.Next = new EndPointStep().Invoke;
 
-// set start point and excute pipeline
-requestPipeline.SetStartProccessPoint(corsStep);
-requestPipeline.ExecutePipeline();
+// set pipes and run 
+ new Pipeline(pipelineContext)
+               .AddPipe(corsStep)
+               .AddPipe(exceptionhandlingStep)
+               .AddPipe(routeStep)
+               .AddPipe(authenticationStep)
+               .Run();
 
 Console.ReadKey();

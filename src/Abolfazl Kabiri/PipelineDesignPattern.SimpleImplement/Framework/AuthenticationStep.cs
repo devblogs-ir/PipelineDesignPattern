@@ -3,15 +3,14 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework;
 
-public class AuthenticationStep<T> : IEndPointPipelineStep<T>
+public class AuthenticationStep : IPipe
 {
-    public Func<T> Func { get; set; }
-    public void Exceute(IPipelineContext context)
+    public Action<IPipelineContext> Next { get; set; }
+    public void Invoke(IPipelineContext context)
     {
         "Starting auth".Dump();
         Common.ValidateIpAddress(context);
-        Func();
+        Next(context);
         "End auth".Dump();
     }
-
 }

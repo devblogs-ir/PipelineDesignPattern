@@ -3,13 +3,13 @@ using PipelineDesignPattern.SimpleImplement.Pipeline;
 
 namespace PipelineDesignPattern.SimpleImplement.Framework;
 
-public class RouteStep : IPipelineStep
+public class RouteStep : IPipe
 {
-    public Action<IPipelineContext> Action { get; set; }
-    public void Exceute(IPipelineContext context)
+    public Action<IPipelineContext> Next { get; set; }
+    public void Invoke(IPipelineContext context)
     {
         "Starting route".Dump();
-        Action(context);
+        Next(context);
         "End route".Dump();
     }
 }
