@@ -11,7 +11,7 @@ public class ExceptionHandler : BaseHandler
         }
         catch (ApplicationException ex)
         {
-            ex.Message.Dump("!!!Error!!!");
+            ex.Message.Dump("!!!Application Error!!!");
         }
         finally
         {
