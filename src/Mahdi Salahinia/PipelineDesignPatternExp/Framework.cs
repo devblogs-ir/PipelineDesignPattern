@@ -30,18 +30,23 @@ public class Framework
 
         var controllerName = urlParts[1];
         var methodName = urlParts[2];
+        var option = urlParts[3];
 
         var assemblyAddress = $"PipelineDesignPatternExp.{controllerName}Controller";
 
         var type = Type.GetType(assemblyAddress);
 
+        MethodInfo method = type.GetMethod(methodName);
+
+        var parametersInfo = method.GetParameters();
+
+        var optionAsInt = Convert.ChangeType(option, parametersInfo[0].ParameterType);
+
         var runTimeInstance = Activator.CreateInstance(type);
 
         //var productsController = runTimeInstance as ProductsController;
 
-        MethodInfo method = type.GetMethod(methodName);
-
-        method.Invoke(runTimeInstance, null);
+        method.Invoke(runTimeInstance, new[] { optionAsInt });
     }
 
     public void ExceptionHandling(HttpContext httpContext, Action<HttpContext> action)

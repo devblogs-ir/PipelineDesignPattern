@@ -12,7 +12,7 @@ var productsController = new ProductsController();
 var httpContext = new HttpContext()
 {
     IpAddress = "1.32.232.0",
-    Url = "/Products/GetAll"
+    Url = "/Products/GetProductById/1"
 };
 
 //framework.Authentication(httpContext,

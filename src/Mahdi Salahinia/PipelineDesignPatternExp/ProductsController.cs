@@ -13,5 +13,17 @@ namespace PipelineDesignPatternExp
         {
             "Return All Products".Dump();
         }
+
+        public void GetProductById(int id)
+        {
+            var products = new List<string>()
+            {
+                "A#1",
+                "A#2",
+                "A#3"
+            };
+
+            $"Product: {products[id]}".Dump();
+        }
     }
 }
