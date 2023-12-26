@@ -1,7 +1,7 @@
 ﻿using Dumpify;
 using System;
 
-namespace PipelineDesignPattern.Handlers;
+namespace PipelineDesignPattern;
 public class RoutingHandler : BaseHandler
 {
     private readonly (int Min, int Max) subRoutesNumberRange = (2, 3);

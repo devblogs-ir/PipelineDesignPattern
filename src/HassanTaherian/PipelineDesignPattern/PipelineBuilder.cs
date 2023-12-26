@@ -1,6 +1,4 @@
-﻿using PipelineDesignPattern.Handlers;
-
-namespace PipelineDesignPattern;
+﻿namespace PipelineDesignPattern;
 public class PipelineBuilder
 {
     private IHandler? entryPoint { get; set; }

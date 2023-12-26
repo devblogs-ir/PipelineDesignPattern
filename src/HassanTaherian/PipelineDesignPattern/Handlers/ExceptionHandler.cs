@@ -1,6 +1,6 @@
 ﻿using Dumpify;
 
-namespace PipelineDesignPattern.Handlers;
+namespace PipelineDesignPattern;
 public class ExceptionHandler : BaseHandler
 {
     public override void Handle(HttpContext httpContext)

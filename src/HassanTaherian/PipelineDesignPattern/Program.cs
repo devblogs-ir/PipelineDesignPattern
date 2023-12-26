@@ -1,6 +1,5 @@
 ﻿using Dumpify;
 using PipelineDesignPattern;
-using PipelineDesignPattern.Handlers;
 
 var countryRepository = new CountryRepository();
 ProductController productController = new();

@@ -1,6 +1,6 @@
 ﻿using Dumpify;
 
-namespace PipelineDesignPattern.Handlers;
+namespace PipelineDesignPattern;
 public class AuthorizationHandler : BaseHandler
 {
     private readonly IIpService ipService;

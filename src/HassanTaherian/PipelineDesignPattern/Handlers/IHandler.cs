@@ -1,4 +1,4 @@
-﻿namespace PipelineDesignPattern.Handlers;
+﻿namespace PipelineDesignPattern;
 public interface IHandler
 {
     Action<HttpContext> Next { set; }
