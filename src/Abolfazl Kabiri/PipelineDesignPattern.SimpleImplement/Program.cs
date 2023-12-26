@@ -1,38 +1,42 @@
-﻿using PipelineDesignPattern.SimpleImplement.Controllers;
+﻿using CommandLine;
+using PipelineDesignPattern.SimpleImplement.Controllers;
 using PipelineDesignPattern.SimpleImplement.Framework;
+using PipelineDesignPattern.SimpleImplement.Patterns;
 using PipelineDesignPattern.SimpleImplement.Pipeline;
 
-#region Get_Sample_Input
-Console.Write("Please enter your country (please choose Iran or Usa): ");
-string country = Console.ReadLine();
-Console.Write("Please enter your ip address : ");
-string ipAddress = Console.ReadLine();
-Console.Write("Please enter your endpoint : ");
-string endpoint = Console.ReadLine();
-#endregion
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Parser.Default
+            .ParseArguments<HttpRequestPattern>(args)
+            .WithParsed(option =>
+            {
+                // set context in pipeline
+                PipelineContext pipelineContext = new() { RequestIpAddress = option.Ip, Country = option.Country, Url = option.Url };
 
-// set context in pipeline
-PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress, Country = country,Url=endpoint };
+                // init pipes
+                var cors = new CorsStep();
+                var exceptionhandling = new ExceptionHandlingStep();
+                var route = new RouteStep();
+                var product = new ProductController();
+                var authentication = new AuthenticationStep();
 
-// init pipes
-var cors = new CorsStep();
-var exceptionhandling = new ExceptionHandlingStep();
-var route = new RouteStep();
-var product = new ProductController();
-var authentication = new AuthenticationStep();
+                // setup action chaining in pipeline
+                cors.Next = exceptionhandling.Invoke;
+                exceptionhandling.Next = route.Invoke;
+                route.Next = authentication.Invoke;
+                authentication.Next = new EndPointStep().Invoke;
 
-// setup action chaining in pipeline
-cors.Next = exceptionhandling.Invoke;
-exceptionhandling.Next = route.Invoke;
-route.Next = authentication.Invoke;
-authentication.Next = new EndPointStep().Invoke;
+                // set pipes and run 
+                new Pipeline(pipelineContext)
+                              .AddPipe(cors)
+                              .AddPipe(exceptionhandling)
+                              .AddPipe(route)
+                              .AddPipe(authentication)
+                              .Run();
+            });
+        Console.ReadKey();
+    }
 
-// set pipes and run 
- new Pipeline(pipelineContext)
-               .AddPipe(cors)
-               .AddPipe(exceptionhandling)
-               .AddPipe(route)
-               .AddPipe(authentication)
-               .Run();
-
-Console.ReadKey();
+}
