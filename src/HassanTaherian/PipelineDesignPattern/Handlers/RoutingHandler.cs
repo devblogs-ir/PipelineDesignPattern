@@ -11,7 +11,7 @@ public class RoutingHandler : BaseHandler
         var requestedUrl = httpContext.Request.Url;
         var subRoutes = requestedUrl.Split('/');
 
-        if (subRoutes.Length > subRoutesNumberRange.Max && subRoutes.Length < subRoutesNumberRange.Min)
+        if (subRoutes.Length > subRoutesNumberRange.Max || subRoutes.Length < subRoutesNumberRange.Min)
         {
             throw new InvalidUrlFormatException();
         }
