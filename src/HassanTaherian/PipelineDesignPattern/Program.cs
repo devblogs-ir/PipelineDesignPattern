@@ -1,32 +1,5 @@
-﻿using Dumpify;
-using PipelineDesignPattern;
+﻿using PipelineDesignPattern;
 
-var countryRepository = new CountryRepository();
-ProductController productController = new();
-
-void ProcessRequest(HttpContext context)
-{
-    var ipService = new IpService(countryRepository);
-
-    $"Processing Request {context.Id}".Dump();
-
-    RoutingHandler routingHandler = new();
-    ExceptionHandler exceptionHandler = new();
-    AuthorizationHandler authorizationHandler = new(ipService);
-    EndPointHandler endPointHandler = new();
-
-
-    PipelineBuilder pipelineBuilder = new();
-    pipelineBuilder.AddHandler(exceptionHandler)
-                   .AddHandler(authorizationHandler)
-                   .AddHandler(routingHandler)
-                   .AddHandler(endPointHandler);
-
-    pipelineBuilder.Run(context);
-
-    $"End Process of Request {context.Id}".Dump();
-    Console.WriteLine("\n");
-}
 
 HttpContext iranRequest = new()
 {
@@ -65,9 +38,10 @@ HttpContext invalidEndPointRequest = new()
 };
 
 
+IPipelineDirector pipelineDirector = new PipelineDirector();
 
-ProcessRequest(iranRequest);
-ProcessRequest(usRequest);
-ProcessRequest(getUserByIdRequest);
-ProcessRequest(invalidUrlRequestFormat);
-ProcessRequest(invalidEndPointRequest);
+pipelineDirector.Process(iranRequest);
+pipelineDirector.Process(usRequest);
+pipelineDirector.Process(getUserByIdRequest);
+pipelineDirector.Process(invalidUrlRequestFormat);
+pipelineDirector.Process(invalidEndPointRequest);
