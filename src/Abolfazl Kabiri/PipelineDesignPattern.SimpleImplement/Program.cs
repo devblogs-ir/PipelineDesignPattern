@@ -15,24 +15,24 @@ string endpoint = Console.ReadLine();
 PipelineContext pipelineContext = new() { RequestIpAddress = ipAddress, Country = country,Url=endpoint };
 
 // init pipes
-var corsStep = new CorsStep();
-var exceptionhandlingStep = new ExceptionHandlingStep();
-var routeStep = new RouteStep();
+var cors = new CorsStep();
+var exceptionhandling = new ExceptionHandlingStep();
+var route = new RouteStep();
 var product = new ProductController();
-var authenticationStep = new AuthenticationStep();
+var authentication = new AuthenticationStep();
 
 // setup action chaining in pipeline
-corsStep.Next = exceptionhandlingStep.Invoke;
-exceptionhandlingStep.Next = routeStep.Invoke;
-routeStep.Next = authenticationStep.Invoke;
-authenticationStep.Next = new EndPointStep().Invoke;
+cors.Next = exceptionhandling.Invoke;
+exceptionhandling.Next = route.Invoke;
+route.Next = authentication.Invoke;
+authentication.Next = new EndPointStep().Invoke;
 
 // set pipes and run 
  new Pipeline(pipelineContext)
-               .AddPipe(corsStep)
-               .AddPipe(exceptionhandlingStep)
-               .AddPipe(routeStep)
-               .AddPipe(authenticationStep)
+               .AddPipe(cors)
+               .AddPipe(exceptionhandling)
+               .AddPipe(route)
+               .AddPipe(authentication)
                .Run();
 
 Console.ReadKey();
