@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+	<PackAsTool>true</PackAsTool>
+	<ToolCommandName>pipeline-builder</ToolCommandName>
+	<PackageOutputPath>./nupkg</PackageOutputPath>
+	<Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="Dumpify" Version="0.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="E:\Learning\.Net Mastery\Practice\Session4\PipelineDesignPattern\src\Abolfazl Kabiri\PipelineDesignPattern.SimpleImplement\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="E:\Learning\.Net Mastery\Practice\Session4\PipelineDesignPattern\src\Abolfazl Kabiri\PipelineDesignPattern.SimpleImplement\.editorconfig" />
+  </ItemGroup>
+
+</Project>

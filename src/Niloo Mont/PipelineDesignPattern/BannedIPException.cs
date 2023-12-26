@@ -1,5 +1,4 @@
-﻿namespace PipelineDesignPattern
-{
+﻿namespace PipelineDesignPattern;
     public class BannedIPException : ApplicationException
     {
         public BannedIPException(string ip) :
@@ -8,4 +7,3 @@
 
         }
     }
-}
