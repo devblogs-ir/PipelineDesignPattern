@@ -26,6 +26,7 @@ void ProcessRequest(HttpContext context)
     pipelineBuilder.Run(context);
 
     $"End Process of Request {context.Id}".Dump();
+    Console.WriteLine("\n");
 }
 
 HttpContext iranRequest = new()

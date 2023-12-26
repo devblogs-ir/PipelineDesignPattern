@@ -7,9 +7,9 @@ public static class Messages
         return $"We're sorry! We can't service customers from {countryName}:(";
     }
 
-    public static string InvalidUrlFormatException()
+    public static string InvalidUrlFormatException(string url)
     {
-        return "URL format mush be {controller}/{action}/{parameter}";
+        return $"URL format mush be {{controller}}/{{action}}/{{parameter}}\nRequested URL: {url}";
     }
 
     public static string EndPointNotFoundException(string url)

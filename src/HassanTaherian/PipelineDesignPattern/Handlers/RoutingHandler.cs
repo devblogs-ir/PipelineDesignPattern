@@ -13,7 +13,7 @@ public class RoutingHandler : BaseHandler
 
         if (subRoutes.Length > subRoutesNumberRange.Max || subRoutes.Length < subRoutesNumberRange.Min)
         {
-            throw new InvalidUrlFormatException();
+            throw new InvalidUrlFormatException(httpContext.Request.Url);
         }
         EndPoint endPoint = new()
         {
