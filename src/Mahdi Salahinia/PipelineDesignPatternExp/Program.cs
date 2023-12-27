@@ -3,11 +3,8 @@
 var framework = new Framework();
 
 var ipController = new IpController();
+
 var productsController = new ProductsController();
-
-//Console.WriteLine("Enter your Ip: ");
-
-//var userIp = Console.ReadLine();
 
 var httpContext = new HttpContext()
 {
@@ -15,12 +12,26 @@ var httpContext = new HttpContext()
     Url = "/Products/GetProductById/1"
 };
 
+#region Commented
+
 //framework.Authentication(httpContext,
 //                (httpContext) => framework.ExceptionHandling(httpContext, ((httpContext) => ipController.GetUserIp(httpContext))));
 
-framework.ExceptionHandling(httpContext,
-    (httpContext) =>
-framework.Authentication(httpContext,
-    (httpContext) => framework.EndPointHandling(httpContext, null!)));
+//framework.ExceptionHandling(httpContext,
+//    (httpContext) =>
+//framework.Authentication(httpContext,
+//    (httpContext) => framework.EndPointHandling(httpContext, null!)));
+
+//var eh = new EndPointHandling(null!);
+//var au = new Authentication(eh.Handle);
+//var ex = new ExceptionHandling(au.Handle);
+
+//eh.Handle(httpContext);
+#endregion
+
+
+var pipeBuilder = new PipelineBuilder()
+                        .AddPipe(typeof(Authentication))
+                        .Build(httpContext, (//How can I pass Action to run this method??));
 
 Console.ReadKey();
