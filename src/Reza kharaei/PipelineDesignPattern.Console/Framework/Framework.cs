@@ -21,6 +21,10 @@ public class Framework
 
     public void Authentication(HttpContext httpContext, Action<HttpContext> action)
     {
+
+        if (string.IsNullOrEmpty(httpContext.IP))
+            throw new Exception("Your IP Address is not accessible");
+
         if (httpContext.IP.StartsWith("98."))
             throw new Exception("You are from Iran!");
 
