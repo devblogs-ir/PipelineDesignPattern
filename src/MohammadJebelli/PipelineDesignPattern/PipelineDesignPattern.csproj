@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="dumpify" Version="0.6.3" />
-    <PackageReference Include="IPinfo" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

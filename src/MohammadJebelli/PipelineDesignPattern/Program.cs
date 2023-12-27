@@ -1,22 +1,25 @@
 ﻿using Dumpify;
 using PipelineDesignPattern;
 
-ProductController controller = new ProductController();
-Framework framework = new Framework();
-
-var httpContext1 = new HttpContext("185.188.104.10");
-var httpContext2 = new HttpContext("216.239.38.120");
 
 
-"US IP----------------------------".Dump();
-framework.ExceptionHandling(
-    httpContext2, (context) =>
-        framework.Authentication(context, controller.GetAllUser)
-        );
+//Iran IP
+var httpContext1 = new HttpContext(IP:"185.188.104.10", Url:"localhost:4040/Product/GetAll");
+var httpContext2 = new HttpContext(IP: "216.239.38.120", Url: "localhost:4040/Product/GetAll");
 
-"Iran IP----------------------------".Dump();
-framework.ExceptionHandling(
-    httpContext1, (context) =>
-        framework.Authentication(context, controller.GetAllUser)
-        );
 
+
+
+//US IP----------------
+ new PipeBuilder()
+    .AddPipe(typeof(ExceptionHandlerPipe))
+    .AddPipe(typeof(AuthenticaionPipe))
+    .AddPipe(typeof(EndPointPipe))
+    .Build(httpContext1);
+
+//Iran IP--------------
+new PipeBuilder()
+    .AddPipe(typeof(ExceptionHandlerPipe))
+    .AddPipe(typeof(AuthenticaionPipe))
+    .AddPipe(typeof(EndPointPipe))
+    .Build(httpContext2);
