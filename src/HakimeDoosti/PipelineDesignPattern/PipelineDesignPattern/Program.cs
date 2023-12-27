@@ -3,24 +3,32 @@
 
 using PipelineDesignPattern;
 
-ProductController productController = new ();
-Framework framework = new ();
-var httpContext= new HttpContext() {  IP= "192.15.0.0" };
-var httpContext2= new HttpContext() {  IP= "102.129.131.0" };
-framework
-    .ExceptionHandling(httpContext,(context ) => framework
-    .Cors(context, (context) => framework
-    .Routing(context, (context) => framework
-    .Authentication(context, productController
-    .GetAllUser))));
-framework
-    .ExceptionHandling(httpContext2, (context) => framework
-    .Cors(context, (context) => framework
-    .Routing(context, (context) => framework
-    .Authentication(context, productController
-    .GetAllUser))));
-
-public class HttpContext
+HttpContext request1 = new()
 {
-    public string IP { get; set; }
-}
+    IP = "102.15.0.0",
+    Url = "https://localhost:44387/Product/GetUserBuyId/3"
+};
+
+HttpContext request2 = new()
+{
+    IP = "192.15.0.0",
+    Url = "https://localhost:44387/Product/GetUserBuyId/3"
+};
+
+Framework framework = new();
+
+framework.ExceptionHandling(request1,
+    (context) => framework.Authentication(context,
+    (context) => framework.EndpointHandling(context, null!)));
+
+
+
+var endpointPip = new EndpointPip(null!);
+var authenticationPip = new AuthenticationPip(endpointPip.Handel);
+var exeptionHandling = new ExceptionHandlingPip(authenticationPip.Handel);
+
+exeptionHandling.Handel(request1);
+
+exeptionHandling.Handel(request2);
+
+
