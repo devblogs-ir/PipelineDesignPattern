@@ -16,7 +16,7 @@ while (true)
         break;
 }
 
-Context httpContext = new(ip, "User/GetAll");
+Context httpContext = new(ip, "User/GetUserById?id=1");
 var app = new PipelineBuilder();
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();

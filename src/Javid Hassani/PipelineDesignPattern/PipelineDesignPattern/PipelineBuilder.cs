@@ -14,16 +14,15 @@ public class PipelineBuilder
 
     public void Build(Context context)
     {
-        List<Middleware> pipes = new();
         Action<Context> next = null!;
 
         for (int i = _types.Count - 1; i >= 0; i--)
         {
             var instance = Activator.CreateInstance(_types[i], new[] { next }) as Middleware;
 
-            next = instance.Handle;
-            pipes.Add(instance);
+            next = instance!.Handle;
+
         }
-        pipes.Last().Handle(context);
+        next.Invoke(context);
     }
 }
