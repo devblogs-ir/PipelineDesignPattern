@@ -1,16 +1,16 @@
 ﻿using Dumpify;
 namespace PipelineDesignPattern;
 
-public class ProductController
+public class OrderController
 {
     private readonly HttpContext _httpContext;
 
-    public ProductController(HttpContext httpContext)
+    public OrderController(HttpContext httpContext)
     {
         _httpContext = httpContext;
     }
 
-    public void GetAllProduct(int userId)
+    public void GetAllOrder()
     {
         $"All Products".Dump();
     }

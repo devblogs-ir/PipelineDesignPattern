@@ -1,15 +1,22 @@
-﻿//The code demonstrates how the Pipeline Design Pattern can be used to handle exceptions and perform authentication in different contexts. 
+﻿//The code demonstrates how the Pipeline Design Pattern can be used to handle a chain of pipes in different contexts. 
 
-using PipelineDesignPattern;
+using PipelineDesignPattern.Builders;
+using PipelineDesignPattern.Pipelines;
 
-ProductController productController = new();
+HttpContext request1 = new()
+{
+    IP = "164.215.56.0",
+    Url = "localhost:4545/Product/GetAllProduct/1"
+};
 
-LoginPipeLine loginPipes = new();
+HttpContext request2 = new()
+{
+    IP = "123.215.56.0",
+    Url = "localhost:4545/Product/GetAllProduct/2"
+};
 
-HttpContext irContext = new() { IP = "164.215.56.0" };
-
-HttpContext usContext = new() { IP = "170.171.1.0" };
-
-loginPipes.ExceptionHandling(irContext, (context) => loginPipes.Authentication(context, productController.GetAllProduct));
-
-loginPipes.ExceptionHandling(usContext, (context) => loginPipes.Authentication(context, productController.GetAllProduct));
+new PipelineBuilder([request1, request2])
+    .AddPipe(typeof(EndPointPipe))
+    .AddPipe(typeof(AuthenticationPipe))
+    .AddPipe(typeof(ExceptionHandlingPipe))
+    .Build();
