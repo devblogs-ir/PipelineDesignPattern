@@ -1,4 +1,5 @@
 ﻿
+using Dumpify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +14,16 @@ namespace PipelineDesignPattern
 
         public ProductController(HttpContext context)
         {
-            _context = context;
+            _context = context;            
         }
 
         public void GetAll()
         {
-            Console.WriteLine("Return all users");
+            $"Return all users for IP: {_context.IP}".Dump();
         }
-        public void GetById()
+        public void GetById(HttpContext context)
         {
-            Console.WriteLine("Return user by id");
+            "Return user by id".Dump();
         }
     }
 }

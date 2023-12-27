@@ -16,34 +16,60 @@ namespace PipelineDesignPattern
             pipes.Add(type);
             return this;
         }
+        //private List<Pipe> builtPipes = new List<Pipe>();
 
         public PipeBuilder Build(HttpContext httpContext)
         {
-            Action<HttpContext> pipeline = null;
+            Action<HttpContext> finalAction = null;
 
-            //for (int i = 0; i <= pipes.Count - 1; i++)
+            // Iterate through the pipes in reverse order to build the chain
             for (int i = pipes.Count - 1; i >= 0; i--)
             {
-                var type = pipes[i];
+                var pipeType = pipes[i];
+                var pipeInstance = (Pipe)Activator.CreateInstance(pipeType, finalAction);
 
-                var instance = Activator.CreateInstance(type, pipeline);
-
-                var constructor = type.GetConstructor(new[] { typeof(Action<HttpContext>) });
-
-                var pipeInstance = (Pipe)constructor.Invoke(new[] { pipeline });
-
-                pipeline = pipeInstance.Handle;
-
-                if(i == 0)
-                {
-                    pipeInstance.Handle(httpContext);
-                }
+                // Set the next action for the current pipe
+                finalAction = pipeInstance.Handle;
             }
-            
-            
+
+            // Execute the final action, which is the first pipe in the chain
+            finalAction(httpContext);
 
             return this;
         }
+
+
+        //public PipeBuilder Build(HttpContext httpContext)
+        //{
+        //    Action<HttpContext> pipeline = null;
+        //    Pipe pipeInstance = null;
+
+        //    for (int i = pipes.Count - 1; i >= 0; i--)
+        //    {
+        //        var type = pipes[i];
+
+        //        var constructor = type.GetConstructor(new[] { typeof(Action<HttpContext>) });
+
+        //        pipeInstance = (Pipe)constructor.Invoke(new[] { pipeline });
+
+        //        pipeline = pipeInstance.Handle;
+
+        //        builtPipes.Add(pipeInstance);
+
+        //    }
+
+        //    //pipeInstance.Handle(httpContext);
+
+        //    var bp = builtPipes.FirstOrDefault();
+        //    bp.Handle(httpContext);
+
+        //    return this;
+        //}
+
+
+
+
+
 
         //some other failed tries :D
 

@@ -11,7 +11,7 @@ namespace PipelineDesignPattern
         protected Action<HttpContext> _next;
         public Pipe(Action<HttpContext> next)
         {
-            next = _next;   
+            _next=next;   
         }
 
         public abstract void Handle(HttpContext httpContext);
