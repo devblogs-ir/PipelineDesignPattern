@@ -12,7 +12,7 @@ namespace PipeLineDesignPattern
     {
         public void GetIP(HttpContext context)
         {
-            context.IP.Dump(label: "Your IP");
+            context.IP.Dump(label: "IP access verified");
         }
     }
 }
