@@ -1,5 +1,7 @@
 ﻿using PipelineDesignPattern;
+using System.Net.Http;
 using System.Reflection;
+using System.Reflection.Metadata;
 
 Framework framework = new();
 //HttpContext requestGetAllProducts = new() { 
@@ -20,10 +22,17 @@ HttpContext requestGetUserById = new()
 //    (context) => framework.Authentication(context,
 //    (context) => framework.EndpointHandling(context,null!)));
 
-var ep = new EndPointPipe(null!);
-var au = new AuthenticationPipe(ep.Handle);
-var eh = new ExceptionHandlingPipe(au.Handle);
-eh.Handle(requestGetUserById);
+//var ep = new EndPointPipe(null!);
+//var au = new AuthenticationPipe(ep.Handle);
+//var pipeline = new ExceptionHandlingPipe(au.Handle);
+var pipeline = new PipelineBuilder().
+                        AddPipe(typeof(ExceptionHandlingPipe)).
+                        AddPipe(typeof(AuthenticationPipe)).
+                        AddPipe(typeof(EndPointPipe)).
+                        build(requestGetUserById);
+
+
+//pipeline.Handle(requestGetUserById);
 
 public abstract class Pipe(Action<HttpContext> next)
 {
@@ -47,6 +56,7 @@ public class AuthenticationPipe(Action<HttpContext> next) : Pipe(next)
 }
 public class ExceptionHandlingPipe(Action<HttpContext> next) : Pipe(next)
 {
+    private Action<HttpContext> _next = next;
     public override void Handle(HttpContext httpContext)
     {
         Console.WriteLine("starting except...");
@@ -90,4 +100,26 @@ public class EndPointPipe(Action<HttpContext> next) : Pipe(next)
         if (_next != null)
             _next(httpContext);
     }
+}
+public class PipelineBuilder
+{
+    private List<Type> _pipes = new List<Type>();
+    public PipelineBuilder AddPipe(Type pipe)
+    {
+        _pipes.Add(pipe);
+        return this;
+    }
+    public PipelineBuilder build(HttpContext httpContext)
+    {
+        MethodInfo method = _pipes[0].GetMethod("Handle");
+        var parametersInfo = method.GetParameters();
+
+      
+        var instance = Activator.CreateInstance(_pipes[0], new[] { _pipes[1] });
+ 
+
+        method.Invoke(instance, new[] { httpContext});
+        return this;
+    }
+
 }
