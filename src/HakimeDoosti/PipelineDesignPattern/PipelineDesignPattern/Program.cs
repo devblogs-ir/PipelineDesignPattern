@@ -15,20 +15,17 @@ HttpContext request2 = new()
     Url = "https://localhost:44387/Product/GetUserBuyId/3"
 };
 
-Framework framework = new();
-
-framework.ExceptionHandling(request1,
-    (context) => framework.Authentication(context,
-    (context) => framework.EndpointHandling(context, null!)));
+ 
 
 
+ 
 
-var endpointPip = new EndpointPip(null!);
-var authenticationPip = new AuthenticationPip(endpointPip.Handel);
-var exeptionHandling = new ExceptionHandlingPip(authenticationPip.Handel);
+var pipeline = new PipelineBuilder(request1)
+   .AddPipe(typeof(ExceptionHandlingPip))
+   .AddPipe(typeof(AuthenticationPip))
+   .AddPipe(typeof(EndpointPip))
+   .Build((ctx) => { });
 
-exeptionHandling.Handel(request1);
-
-exeptionHandling.Handel(request2);
-
+Console.ReadLine();
+ 
 

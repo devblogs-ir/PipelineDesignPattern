@@ -14,6 +14,10 @@ namespace PipelineDesignPattern
 
             $"user id :{httpContext.IP} retrn all user".Dump();
         }
+        public void GetUserBuyId(int Id)
+        {
+            $"GetUserBuyId:{Id}".Dump();
+        }
 
     }
 }

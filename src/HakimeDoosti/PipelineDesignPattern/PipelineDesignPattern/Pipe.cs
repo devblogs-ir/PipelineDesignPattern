@@ -14,30 +14,30 @@ namespace PipelineDesignPattern
 }
 public class AuthenticationPip(Action<HttpContext> next) : Pipe(next)
 {
-    public override void Handel(HttpContext httpContent)
+    public override void Handel(HttpContext httpContext)
     {
         "begin AuthenticationPip".Dump();
 
-        if (httpContent is null) 
+        if (httpContext is null) 
             throw new CustomException("context is null ");
 
-        if (httpContent.IP is null) 
+        if (httpContext.IP is null) 
             throw new CustomException("IP is null ");
 
-        if (httpContent.IP == "192.15.0.0") 
+        if (httpContext.IP == "192.15.0.0") 
             throw new CustomException("you are from Iran");
 
-        if (_next is not null) _next(httpContent);
+        if (_next is not null) _next(httpContext);
     }
 }
 public class ExceptionHandlingPip(Action<HttpContext> next) : Pipe(next)
 {
-    public override void Handel(HttpContext httpContent)
+    public override void Handel(HttpContext httpContext)
     {
         "begin ExceptionHandlingPip".Dump();
         try
         {
-            if (_next is not null) _next(httpContent);
+            if (_next is not null) _next(httpContext);
         }
         catch (CustomException ex)
         {
@@ -48,10 +48,11 @@ public class ExceptionHandlingPip(Action<HttpContext> next) : Pipe(next)
 }
 public class EndpointPip(Action<HttpContext> next) : Pipe(next)
 {
-    public override void Handel(HttpContext httpContent)
+
+    public override void Handel(HttpContext httpContext)
     {
         "begin EndpointPip".Dump();
-        var urlParts = httpContent.Url.Split('/');
+        var urlParts = httpContext.Url.Split('/');
         var methodName = "";
         var controllerName = "";
         var UserId = "";
@@ -73,7 +74,7 @@ public class EndpointPip(Action<HttpContext> next) : Pipe(next)
             throw new CustomException(" type Not Found ");
 
         var instanceController = Activator
-            .CreateInstance(typeController, new[] { httpContent }) ??
+            .CreateInstance(typeController, new[] { httpContext }) ??
             throw new CustomException(" Controller Not Found ");
 
         MethodInfo method = typeController
@@ -88,6 +89,6 @@ public class EndpointPip(Action<HttpContext> next) : Pipe(next)
 
         method.Invoke(instanceController, new[] { userIdAsInt });
 
-        if (_next is not null) _next(httpContent);
+        if (_next is not null) _next(httpContext);
     }
 }
