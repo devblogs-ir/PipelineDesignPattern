@@ -1,4 +1,4 @@
-namespace PipelineDesignPattern.Controllers;
+namespace PipelineDesignPatternConsole.Controllers;
 
 public class UserController
 {

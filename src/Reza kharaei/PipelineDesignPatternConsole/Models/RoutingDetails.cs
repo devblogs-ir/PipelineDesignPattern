@@ -1,6 +1,6 @@
-namespace PipelineDesignPattern.Models;
+namespace PipelineDesignPatternConsole.Models;
 
-public class RequestDetails{
+public class RoutingDetails{
     public string controllerName { get; set; }
     public string actionName { get; set; }
     public int? parameterId { get; set; }

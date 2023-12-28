@@ -1,4 +1,4 @@
-namespace PipelineDesignPattern.Framework;
+namespace PipelineDesignPatternConsole.Framework;
 
 public class Filtering()
 {

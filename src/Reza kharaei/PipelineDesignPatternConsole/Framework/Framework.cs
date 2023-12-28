@@ -1,7 +1,8 @@
 
-using PipelineDesignPattern.Models;
+using System.Reflection;
+using PipelineDesignPatternConsole.Models;
 
-namespace PipelineDesignPattern.Framework;
+namespace PipelineDesignPatternConsole.Framework;
 
 public class Framework
 {
@@ -49,9 +50,9 @@ public class Framework
     {
         var request = UrlHelper.ParseUrl(httpContext.Url);
         
-        //var projectNamespace = typeof(Program).Namespace;
-        //var controllerAssemblyName = $"{projectNamespace}.Controllers.{controllerName}Controller";
-        var controllerAssemblyName = $"PipelineDesignPattern.Controllers.{request.controllerName}Controller";
+        var projectNamespace = Assembly.GetExecutingAssembly().GetName().Name;
+        Console.WriteLine(projectNamespace);
+        var controllerAssemblyName = $"{projectNamespace}.Controllers.{request.controllerName}Controller";
         
         var controllerType = Type.GetType(controllerAssemblyName);
         if (controllerType is null)

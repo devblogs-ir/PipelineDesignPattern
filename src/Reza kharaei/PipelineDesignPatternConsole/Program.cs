@@ -1,5 +1,5 @@
-﻿using PipelineDesignPattern.Framework;
-using PipelineDesignPattern.Models;
+﻿using PipelineDesignPatternConsole.Framework;
+using PipelineDesignPatternConsole.Models;
 
 startProgram:
 string strUrl = string.Empty;
