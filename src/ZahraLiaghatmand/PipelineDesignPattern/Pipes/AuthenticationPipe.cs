@@ -22,9 +22,8 @@ namespace PipelineDesignPattern.Pipes
         {
             Console.WriteLine("starting Auth...");
             if (httpContext is null)
-                throw new IPNotProvideException("IP is not provided");
-            else if (httpContext.IP is "85.185.20.177")
-                throw new InvalidIPException("invalid IP");
+                throw new IPBanException(httpContext.IP);
+            
 
             if (_next != null)
                 _next(httpContext);

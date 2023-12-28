@@ -23,13 +23,13 @@ namespace PipelineDesignPattern.Pipes
                 if (_next != null)
                     _next(httpContext);
             }
-            catch (Exception ex) when (ex is IPNotProvideException)
+            catch (Exception ex) when (ex is IPBanException)
             {
                 Console.WriteLine(ex.Message);
             }
-            catch (Exception ex) when (ex is InvalidIPException)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
 
         }
