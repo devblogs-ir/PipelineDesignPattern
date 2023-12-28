@@ -1,11 +1,12 @@
 ﻿using PipelineDesignPattern.Framework;
+using PipelineDesignPattern.Models;
 
 startProgram:
 string strUrl = string.Empty;
 string strIP = string.Empty;
 var UrlArray = new string[] { "localhost/api/User/GetAll",
                               "localhost/api/Product/GetAll",
-                              "localhost/api/Product/GetById" };
+                              "localhost/api/Product/GetById/{Id}" };
 
 
 Console.WriteLine("List of available APIs:");
@@ -36,15 +37,23 @@ if (urlNumber == 0)
     strUrl = Console.ReadLine();
 }
 else
+{
+    
     strUrl = UrlArray[urlNumber - 1];
+
+    if (strUrl.Contains("{Id}"))
+    {
+        Console.WriteLine("Enter Id:");
+        var strId = Console.ReadLine();
+        strUrl = strUrl.Replace("{Id}", strId);
+    }
+}
 
 Console.WriteLine("Enter your Ip:");
 strIP = Console.ReadLine();
 
 
 Framework framework = new(); 
-
-// Request by USA
 HttpContext httpContext2 = new() { IP = strIP, Url = strUrl };
 framework.ExceptionHandeling(httpContext2, (context) => framework.Authentication(context, 
                                            (context) => framework.EndPointHanling(context, null!)));

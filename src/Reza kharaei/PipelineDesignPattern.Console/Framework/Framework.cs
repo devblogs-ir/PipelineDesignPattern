@@ -1,5 +1,5 @@
 
-using PipelineDesignPattern.Controllers;
+using PipelineDesignPattern.Models;
 
 namespace PipelineDesignPattern.Framework;
 
@@ -47,23 +47,29 @@ public class Framework
 
     public void EndPointHanling(HttpContext httpContext, Action<HttpContext> action)
     {
-        var SplitedUrl = httpContext.Url.Split('/');
-        var controllerName = SplitedUrl[SplitedUrl.Length - 2];
-        var actionName = SplitedUrl[SplitedUrl.Length - 1];
+        var request = UrlHelper.ParseUrl(httpContext.Url);
         
         //var projectNamespace = typeof(Program).Namespace;
         //var controllerAssemblyName = $"{projectNamespace}.Controllers.{controllerName}Controller";
-        var controllerAssemblyName = $"PipelineDesignPattern.Controllers.{controllerName}Controller";
+        var controllerAssemblyName = $"PipelineDesignPattern.Controllers.{request.controllerName}Controller";
         
         var controllerType = Type.GetType(controllerAssemblyName);
         if (controllerType is null)
-            throw new Exception($"there is no controller named '{controllerName}'");
+            throw new Exception($"there is no controller named '{request.controllerName}'.");
   
-        var method = controllerType.GetMethod(actionName); 
+        var method = controllerType.GetMethod(request.actionName); 
         if (method is null)
-            throw new Exception($"there is no method named '{actionName}' in '{controllerName}'");
+            throw new Exception($"there is no action named '{request.actionName}' in '{request.controllerName}' controller.");
    
         var controllerInstanse = Activator.CreateInstance(type: controllerType);
-        method.Invoke(controllerInstanse, null);
+
+        if (request.parameterId.HasValue)
+        {
+            var parameterInfo = method.GetParameters();
+            var intId = Convert.ChangeType(request.parameterId, parameterInfo[0].ParameterType);
+            method.Invoke(controllerInstanse, new [] { intId });
+        }
+        else
+            method.Invoke(controllerInstanse, null);
     }
 }

@@ -1,4 +1,4 @@
-namespace PipelineDesignPattern.Framework;
+namespace PipelineDesignPattern.Models;
 
 public class HttpContext
 {

@@ -4,11 +4,15 @@ public class ProductController
 {
     public void GetAll()
     {
-         Console.WriteLine("Return Products List...");
+         Console.WriteLine("*******************");
+         Console.WriteLine("Return Products List...");     
+         Console.WriteLine("*******************");
     }
 
-    public void GetById()
+    public void GetById(int Id)
     {
-         Console.WriteLine("Return Product Details...");
+         Console.WriteLine("*******************");
+         Console.WriteLine($"Return Product ({Id.ToString()}) Details...");
+         Console.WriteLine("*******************");
     }
 }
