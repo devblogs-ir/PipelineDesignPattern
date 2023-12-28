@@ -1,4 +1,5 @@
 ﻿using PipelineDesignPatternConsole.Framework;
+using PipelineDesignPatternConsole.Framework.Pipelines;
 using PipelineDesignPatternConsole.Models;
 
 startProgram:
@@ -53,7 +54,10 @@ Console.WriteLine("Enter your Ip:");
 strIP = Console.ReadLine();
 
 
-Framework framework = new(); 
-HttpContext httpContext2 = new() { IP = strIP, Url = strUrl };
-framework.ExceptionHandeling(httpContext2, (context) => framework.Authentication(context, 
-                                           (context) => framework.EndPointHanling(context, null!)));
+var httpContext = new HttpContext { IP = strIP, Url = strUrl };
+var pipeline = new PipelineBuilder()
+                                   .AddPipe(typeof(ExceptionHandlingPipe))
+                                   .AddPipe(typeof(AuthenticationPipe))
+                                   .AddPipe(typeof(EndPointPipe))
+                                   .Build(httpContext);
+                                   

@@ -1,6 +1,6 @@
-namespace PipelineDesignPatternConsole.Framework;
+namespace PipelineDesignPatternConsole.Framework.Helpers;
 
-public class Filtering()
+public class FilteringHelper
 {
     public bool IsValid(string IP)
     {

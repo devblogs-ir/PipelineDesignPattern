@@ -1,6 +1,6 @@
 using PipelineDesignPatternConsole.Models;
 
-namespace PipelineDesignPatternConsole.Framework;
+namespace PipelineDesignPatternConsole.Framework.Helpers;
 
 public static class UrlHelper
 {
@@ -10,9 +10,9 @@ public static class UrlHelper
         return int.TryParse(val, out outValue) ? (int?)outValue : null;
     }
 
-    public  static RoutingDetails ParseUrl(string url)
+    public  static RoutingContext ParseUrl(string url)
     {
-        var result = new RoutingDetails();
+        var result = new RoutingContext();
         
         var SplitedUrl = url.Split('/');
         result.parameterId = TryParseNullable(SplitedUrl[SplitedUrl.Length - 1]); 
