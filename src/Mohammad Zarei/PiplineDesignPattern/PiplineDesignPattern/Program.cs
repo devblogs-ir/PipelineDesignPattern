@@ -1,11 +1,25 @@
-﻿var userFromAmerica = new Context { UserIp = "America Ip" };
-var userFromIran = new Context { UserIp = "Iran Ip" };
+﻿using PiplineDesignPattern;
+using PiplineDesignPattern.Pipes;
 
-var framework = new Framework();
-var controller = new ProductController();
+var getUserRequest1 = new Context 
+{ 
+    UserIp = "America Ip",
+    Url = "localhost:7432/Users/Get/1"
+};
 
-framework.ExceptionHandling((context)
-    => framework.Authentication(controller.GetAll, userFromAmerica), userFromAmerica);
+var getUserRequest2 = new Context
+{
+    UserIp = "America Ip",
+    Url = "localhost:7432/Users/Get/2"
+};
 
-framework.ExceptionHandling((context)
-    => framework.Authentication(controller.GetAll, userFromIran), userFromIran);
+
+var builder = new PipelineBuilder()
+    .WithType(typeof(ExceptionHandlingPipe))
+    .WithType(typeof(AuthenticationHandlingPipe))
+    .WithType(typeof(EndpointPipe))
+    .Build();
+
+builder.Invoke(getUserRequest1);
+Console.WriteLine("================================");
+builder.Invoke(getUserRequest2);
