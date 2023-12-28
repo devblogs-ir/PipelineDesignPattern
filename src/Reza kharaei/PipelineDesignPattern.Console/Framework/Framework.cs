@@ -1,4 +1,5 @@
-namespace PipelineDesignPattern.Controllers;
+
+namespace PipelineDesignPattern.Framework;
 
 public class Framework
 {
@@ -21,15 +22,45 @@ public class Framework
 
     public void Authentication(HttpContext httpContext, Action<HttpContext> action)
     {
+        try
+        {
+            Console.WriteLine($"Starting Authentication...  ({httpContext.IP})");
 
-        if (string.IsNullOrEmpty(httpContext.IP))
-            throw new Exception("Your IP Address is not accessible");
+            var filtering = new Filtering();
+            if (filtering.IsValid(httpContext.IP) == false)
+                throw new Exception("You are from Iran!");
 
-        if (httpContext.IP.StartsWith("98."))
-            throw new Exception("You are from Iran!");
+            action(httpContext);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
 
-        Console.WriteLine($"Starting Authentication...  ({httpContext.IP})");
-        action(httpContext);
-        Console.WriteLine($"Finish Authentication.  ({httpContext.IP})");
+            Console.WriteLine($"Finish Authentication.  ({httpContext.IP})");
+        }
+    }
+
+    public void EndPointHanling(HttpContext httpContext, Action<HttpContext> action)
+    {
+        var SplitedUrl = httpContext.Url.Split('/');
+        var controllerName = SplitedUrl[SplitedUrl.Length - 2];
+        var actionName = SplitedUrl[SplitedUrl.Length - 1];
+        
+        var projectNamespace = typeof(Program).Namespace;
+        var controllerAssemblyName = $"{projectNamespace}.Controllers.{controllerName}Controller";
+        var controllerType = Type.GetType(controllerAssemblyName);
+        //var controllerInstanse = Activator.CreateInstance(type: controllerType, args: new[] { httpContext });
+        
+        if (controllerType is null)
+            throw new Exception($"ٖthere is no controller named {controllerName}");
+
+        var method = controllerType.GetMethod(actionName);
+        if (method is null)
+            throw new Exception($"ٖthere is no method named {actionName} in {controllerName}");
+    
+        method.Invoke(httpContext, null);
     }
 }
