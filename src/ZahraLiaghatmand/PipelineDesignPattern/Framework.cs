@@ -67,7 +67,7 @@ public class Framework
             var currentPipe = (Pipe)Activator.CreateInstance(_pipes[_pipes.Count - 1], null);
             for (int index = _pipes.Count - 2; index > 0; index--)
             {
-                currentPipe = (Pipe)Activator.CreateInstance(_pipes[index], new[] { currentPipe });
+                currentPipe = (Pipe)Activator.CreateInstance(_pipes[index], new[] { currentPipe.Handle });
             }
 
             var firstPipe = (Pipe)Activator.CreateInstance(_pipes[0], currentPipe.Handle);

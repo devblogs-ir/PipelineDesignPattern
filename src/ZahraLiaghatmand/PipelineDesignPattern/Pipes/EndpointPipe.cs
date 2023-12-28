@@ -20,7 +20,7 @@ namespace PipelineDesignPattern.Pipes
             var controllerClass = parts[1];
             var actionMethod = parts[2];
             var userId = parts[3];
-            var templateControllerName = $"PipelineDesignPattern.{controllerClass}Controller";
+            var templateControllerName = $"PipelineDesignPattern.Controllers.{controllerClass}Controller";
             var typeController = Type.GetType(templateControllerName);
             MethodInfo method = typeController.GetMethod(actionMethod);
             var parametersInfo = method.GetParameters();

@@ -9,9 +9,9 @@ namespace PipelineDesignPattern.Pipes
 {
     public class ExceptionHandlingPipe : Pipe
     {
-        public ExceptionHandlingPipe()
+        public ExceptionHandlingPipe(Action<HttpContext> next)
         {
-            _next = null!;
+            _next = next;
         }
         private Action<HttpContext> _next;
 
