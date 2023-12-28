@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/src/reza pourabbasi/PipelineDesignPattern/.cr/personal/FavoritesList
