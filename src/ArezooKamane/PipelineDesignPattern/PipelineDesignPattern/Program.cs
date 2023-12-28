@@ -1,26 +1,56 @@
-﻿using System.Net.Http;
+﻿using CommandLine;
 
 namespace PipelineDesignPattern
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static string _ip;
+        private static string _url;
+
+    static void Main(string[] args)
         {
-            ProductController controller = new ProductController();
-            HttpContext context = new HttpContext() { IP = "Iran" };
-            HttpContext context1 = new HttpContext() { IP = "USA" };
+        //iran IP = "178.252.190.1
+        //IP = "8.8.8.8",
+        //Url = "localhost:8080/Products/GetAllProducts"
 
 
-            Framework framework = new Framework();
-
-            framework.Authentication(context1,
-                (context1) => framework.ExceptionHandling(context1, ((context1) => controller.GetAllProducts(context1))));
-
-            framework.Authentication(context,
-                (context) => framework.ExceptionHandling(context, ((context) => controller.GetAllProducts(context))));
+        Parser.Default.ParseArguments<Options>(args)
+            .WithParsed(RunOptions)
+            .WithNotParsed(HandleParseError);
 
 
 
-        }
+        var pipeline = new PipelineBuilder()
+                .UsePipe(typeof(ExceptionHandlingPipe))
+                .UsePipe(typeof(AuthenticationPipe))
+                .UsePipe(typeof(EndPointPipe))
+                .Build();
+
+
+            pipeline.Invoke(new HttpContext(){IP = _ip, Url = _url});
+
     }
+
+        static void RunOptions(Options opts)
+        {
+            _ip = opts.IP;
+            _url = opts.Url;
+        }
+
+        static void HandleParseError(IEnumerable<Error> errors)
+        {
+            Console.WriteLine("Failed to parse command line options."); 
+        }
+
+}
+class Options
+{
+    [Option('i', "ip", Required = true, HelpText ="IP")]
+    public string IP { get; set; }
+
+
+    [Option('u', "url", Required = true, HelpText = "URL")]
+    public string Url { get; set; }
+
+}
 }

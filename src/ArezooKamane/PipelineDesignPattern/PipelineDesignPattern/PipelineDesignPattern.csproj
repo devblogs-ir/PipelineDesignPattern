@@ -4,10 +4,14 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	  <PackAsTool>true</PackAsTool>
+	  <ToolCommandName>PipelineDesignPattern</ToolCommandName>
+	  <PackageOutputPath>./pkg</PackageOutputPath>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="Dumpify" Version="0.6.3" />
   </ItemGroup>
 
