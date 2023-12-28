@@ -1,4 +1,6 @@
 
+using PipelineDesignPattern.Controllers;
+
 namespace PipelineDesignPattern.Framework;
 
 public class Framework
@@ -49,18 +51,19 @@ public class Framework
         var controllerName = SplitedUrl[SplitedUrl.Length - 2];
         var actionName = SplitedUrl[SplitedUrl.Length - 1];
         
-        var projectNamespace = typeof(Program).Namespace;
-        var controllerAssemblyName = $"{projectNamespace}.Controllers.{controllerName}Controller";
-        var controllerType = Type.GetType(controllerAssemblyName);
-        //var controllerInstanse = Activator.CreateInstance(type: controllerType, args: new[] { httpContext });
+        //var projectNamespace = typeof(Program).Namespace;
+        //var controllerAssemblyName = $"{projectNamespace}.Controllers.{controllerName}Controller";
+        var controllerAssemblyName = $"PipelineDesignPattern.Controllers.{controllerName}Controller";
         
+        var controllerType = Type.GetType(controllerAssemblyName);
         if (controllerType is null)
-            throw new Exception($"ٖthere is no controller named {controllerName}");
-
-        var method = controllerType.GetMethod(actionName);
+            throw new Exception($"there is no controller named '{controllerName}'");
+  
+        var method = controllerType.GetMethod(actionName); 
         if (method is null)
-            throw new Exception($"ٖthere is no method named {actionName} in {controllerName}");
-    
-        method.Invoke(httpContext, null);
+            throw new Exception($"there is no method named '{actionName}' in '{controllerName}'");
+   
+        var controllerInstanse = Activator.CreateInstance(type: controllerType);
+        method.Invoke(controllerInstanse, null);
     }
 }
