@@ -1,4 +1,4 @@
-namespace PipelineDesignPattern;
+namespace PipelineDesignPattern.Exceptions;
 public class InvalidIPException : Exception
 {
     public InvalidIPException() { }

@@ -1,4 +1,4 @@
-namespace PipelineDesignPattern;
+namespace PipelineDesignPattern.Exceptions;
 public class IPNotProvideException : Exception
 {
     public IPNotProvideException() { }

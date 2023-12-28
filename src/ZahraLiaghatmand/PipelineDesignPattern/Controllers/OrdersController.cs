@@ -1,4 +1,4 @@
-namespace PipelineDesignPattern;
+namespace PipelineDesignPattern.Controllers;
 public class OrdersController
 {
     private readonly HttpContext _context;
