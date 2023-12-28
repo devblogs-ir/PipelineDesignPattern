@@ -1,25 +1,15 @@
-﻿using PipeLineDesignPattern;
+﻿using System.Reflection;
+using PipeLineDesignPattern;
 
 HttpContext getAllProductsReq = new()
 {
     Ip = "123.185.20.177",
-    Url = "localhost/Products/GetAll"
+    Url = "localhost:3000/Product/GetAll"
 };
 
-Framework framework = new();
 
-public abstract class Pipe
-{
-    // public Pipe(Action<HttpContext> next)
-    // {
-    //     _next = next;
-    // }
-
-    public Action<HttpContent> _next;
-
-    public void Handle(HttpContent httpContent)
-    {
-    }
-}
-
-// public class ExceptionHandling(Action<HttpContext> nextAction):Pipe(nextAction)
+new PipeLineBuilder()
+    .AddPipe(typeof(ExceptionHandling))
+    .AddPipe(typeof(Authentication))
+    .AddPipe(typeof(EndPoint))
+    .Build(getAllProductsReq);
