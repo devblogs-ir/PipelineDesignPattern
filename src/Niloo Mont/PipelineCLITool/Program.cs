@@ -1,40 +1,44 @@
-﻿using Dumpify;
-using PipelineCLITool;
+﻿using PipelineCLITool;
 
-Framework framework = new();
+static HttpContext getParameters(string[] arguments)
+{
+    string? ipArg = null;
+    string? urlArg = null;
 
-//string? ipArg = null;
-//string? urlArg = null;
+    for (int i = 0; i < arguments.Length; i++)
+    {
+        if (arguments[i] == "--ip" && i + 1 < arguments.Length)
+        {
+            ipArg = arguments[++i];
+        }
+        else if (arguments[i] == "--url" && i + 1 < arguments.Length)
+        {
+            urlArg = arguments[++i];
+        }
+    }
 
-//for (int i = 0; i < args.Length; i++)
-//{
-//    if (args[i] == "--ip" && i + 1 < args.Length)
-//    {
-//        ipArg = args[++i];
-//    }
-//    else if (args[i] == "--url" && i + 1 < args.Length)
-//    {
-//        urlArg = args[++i];
-//    }
-//}
+    if (ipArg == null || urlArg == null)
+    {
+        "You must specify both --ip and --url.".Dump();
+        return null;
+    }
 
-//if (ipArg == null || urlArg == null)
-//{
-//    "You must specify both --ip and --url.".Dump();
-//    return;
-//}
-
-//HttpContext request = new()
-//{
-//    IP = ipArg,
-//    Url = urlArg
-//};
-
-HttpContext request = new() { 
-    IP = "127.0.0.1", 
-    Url = "localhost:7777/Products/GetUserById/3"
+    HttpContext request = new()
+    {
+        IP = ipArg,
+        Url = urlArg
     };
+    return request;
+}
 
-framework.AuthenticationHandling(request,
-    (context) => framework.ExceptionHandling((context),
-    (context) => framework.EndpointHandling(context, null!)));
+HttpContext request = getParameters(args);
+
+if(request is not null) {
+    var pipeline = new PipelineBuilder()
+    .AddPipe(typeof(ExceptionHandlingPipe))
+    .AddPipe(typeof(AuthenticationPipe))
+    .AddPipe(typeof(EndPointPipe))
+    .Build();
+
+    pipeline(request);
+}

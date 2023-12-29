@@ -1,6 +1,4 @@
-﻿using Dumpify;
-
-namespace PipelineCLITool;
+﻿namespace PipelineCLITool;
 public class ProductsController
 {
     private readonly HttpContext _httpContext;
