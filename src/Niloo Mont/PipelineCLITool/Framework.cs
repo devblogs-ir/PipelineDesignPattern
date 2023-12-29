@@ -10,8 +10,7 @@ public class Framework
         {
             if (httpContext.IP is "Iran")
                 throw new BannedIPException(httpContext.IP);
-            else
-                function(httpContext);
+            function(httpContext);
         }
         catch (BannedIPException ex)
         {
@@ -63,13 +62,14 @@ public class Framework
                 object[] parameters = new object[parameterList.Length];
                 for (int i = 0; i < parameterList.Length; i++)
                 {
-                    var convertToType = $"To{parameterList[i].ParameterType.Name}";
-                    var convertType = typeof(Convert);
-                    var convertMethod = convertType.GetMethod(convertToType, new[] { typeof(object) });
-                    if (convertMethod is null)
-                        throw new Exception("Something went wrong!");
-                    var convertedValue = convertMethod.Invoke(null, new object[] { userId });
-                    parameters[i] = convertedValue;
+                    var convertedParameter = Convert.ChangeType(userId, parameterList[i].ParameterType);
+                    //var convertToType = $"To{parameterList[i].ParameterType.Name}";
+                    //var convertType = typeof(Convert);
+                    //var convertMethod = convertType.GetMethod(convertToType, new[] { typeof(object) });
+                    //if (convertMethod is null)
+                    //    throw new Exception("Something went wrong!");
+                    //var convertedValue = convertMethod.Invoke(null, new object[] { userId });
+                    parameters[i] = convertedParameter;
                 }
                 methodInfo.Invoke(controllerInstance, parameters);
             }
