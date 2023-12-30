@@ -1,3 +1,13 @@
 ﻿namespace PipelineDesignPattern;
 
-public record Context(string Ip);
+public class Context
+{
+    public Context(string ip, string route)
+    {
+        Ip = ip;
+        Route = route;
+    }
+
+    public string Ip { get; init; }
+    public string Route { get; init; }
+}

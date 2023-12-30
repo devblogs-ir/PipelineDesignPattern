@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using PipelineDesignPattern;
+using PipelineDesignPattern.Pipes;
 
 Console.WriteLine("Hi, Please Enter your Ip");
 
@@ -15,13 +16,14 @@ while (true)
         break;
 }
 
-Context httpContext = new(ip);
+Context httpContext = new(ip, "User/GetUserById?id=1");
+var app = new PipelineBuilder();
 
-var userService = new UserService();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<AuthorizationMiddleware>();
+app.UseMiddleware<RequestMappingMiddleware>();
 
-Pipe.ExceptionHandling(httpContext,
-    (context) => Pipe.Authurization(httpContext,
-    (context) => Pipe.Cors(httpContext, userService.GetUserData)));
+app.Build(httpContext);
 
 Console.ReadKey();
 
